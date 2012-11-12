@@ -8,6 +8,21 @@
 	<link rel="stylesheet" type="text/css" href="./stylesheet/reset.css">
 	<link rel="stylesheet" type="text/css" href="./stylesheet/login.css">
 	<script src="./jquery-1.8.2.min.js" type="text/javascript"></script>
+	<script>
+	$(function(){
+		$(document).scroll(function(){
+			scrollTop=$(document).scrollTop();
+		if(scrollTop>0)
+		{
+			$("#top").addClass("fixed");
+	}
+		else
+		{
+			$("#top").removeClass("fixed");
+	}
+		});
+	});
+	</script>
 </head>
 <body>
 	<div id="wrap">
@@ -21,9 +36,9 @@
 			</div>
 			<div id="top-right" >
 			  	<p>
-					<a class="btn btn-small" type="button" href="./Login.html">로그인</a>
-					<a class="btn btn-small" type="button" href="./Join.html">회원가입</a>
-					<a class="btn btn-small" type="button" href="./mypage.html">마이페이지</a>
+					<a class="btn btn-small" href="./login.html">로그인</a>
+         			<a class="btn btn-small" href="./join.html">회원가입</a>
+          			<a class="btn btn-small" href="./mypage.html">마이페이지</a>
 				</p>
 			</div>
 			<div id="top-exam2">
@@ -36,14 +51,13 @@
 				</div>
 		
 			</form>
-			<div style="background:red;margin:auto;">
+			<div style="margin:auto;">
 			<form class="form-login">
 				
-				<div style="margin:auto;width:400px;padding:10px;clear:both;background:blue;overflow:auto">
+				<div style="margin:auto;width:400px;padding:10px;clear:both;overflow:auto">
 
 			<div id="join-left">
-			
-				<img src="http://placehold.it/160x100" alt="myPic">
+				<img src="http://placehold.it/160x100" alt="myPic" >
 			</div>
 			<div id="join-right">
 				<div class="control-group">
@@ -77,23 +91,13 @@
 		<div id="login-exam">
 		</div>
 		<div id="footer">
-			asdfsdaf
-		</div>
+        	<a href="">Date ♡ course홈</a>
+        	<a href="">제휴제안</a>
+        	<a href="">이용약관</a>
+        	<a href="">제작자</a>
+        	<a href="">Date ♡ course정보</a>
+    	</div>
 	</div>
 </body>
-<script>
-$(function(){
-	$(document).scroll(function(){
-		scrollTop=$(document).scrollTop();
-	if(scrollTop>0)
-	{
-		$("#top").addClass("fixed");
-}
-	else
-	{
-		$("#top").removeClass("fixed");
-}
-	});
-});
-</script>
+
 </html>
