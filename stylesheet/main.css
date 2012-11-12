@@ -1,16 +1,16 @@
-/* basic style */
+﻿/* basic style */
 h1{ font-size:20px; text-align:center; font-weight: bold;}
 a:visited, a:link{color: #000; text-decoration: none;}
 a:hover, a:active{color: #C23700;}
 /* layout */
 #top{
 	width:100%;
-	height:180px;
-	clear: :both;
+	height:230px;
+	clear:both;
 
 
 	background: white;
-	padding:0 0;
+	padding:0;
 	padding-bottom:10px;
 }
 .fixed{
@@ -73,11 +73,12 @@ a:hover, a:active{color: #C23700;}
 
 #footer{
 	width: 70%;
-	height: 40px;
-	margin: 19px auto;	
-	float:right;
+	height: 20px;
+	padding-top: 10px;
+	text-align: center;
+	margin: 0 auto;	
 	background: white;
 }
 #footer a{
-	margin : 0 12px;
+	padding: 0 12px;
 }
