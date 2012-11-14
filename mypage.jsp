@@ -14,13 +14,7 @@
         <div id="top-center">
           <a href="./main.jsp"><img src="./images/logo.jpg" alt = "mainlogo"></a>
         </div>
-        <div id="top-right" >
-            <p>
-            <a class="btn btn-small" href="./login.jsp">로그인</a>
-                  <a class="btn btn-small" href="./join.jsp">회원가입</a>
-                  <a class="btn btn-small" href="./mypage.jsp">마이페이지</a>
-          </p>
-        </div>
+        <jsp:include page="top-right.jsp"></jsp:include>
       </div>
       <div id ="first-nav" class="navbar navmenu" style="height:30px;">
           <div class="navbar-tabs navselect">
