@@ -25,12 +25,14 @@ a:hover, a:active{color: #C23700;}
 	float: left;
 	margin: 0;
 }
-#top-exam2{
+/*  main에서 로그인 버튼이 안눌려 제거.  */
+/*#top-exam2{
 	width:8%;
 	height: 155px;
 	top:10px;
 	float: right;
-}
+}					
+*/
 #top-center{
 	width:28%;
 	height: 155px;
