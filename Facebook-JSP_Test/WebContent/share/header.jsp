@@ -11,8 +11,7 @@
        
 			</div>
 			<jsp:include page="./top-btn.jsp"></jsp:include>
-      <div id="top-exam2">
-      </div>
+      
     </div>
     
     
