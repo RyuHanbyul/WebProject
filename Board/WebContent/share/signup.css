@@ -1,0 +1,17 @@
+
+.text {
+	float: left;
+	width: 400px;
+	padding-top: 5px;
+	text-align: right;
+
+}
+.legend {
+	text-align: center;
+}
+
+.form-action {
+	padding-left: 500px;
+	padding-top: 30px;
+	height: 90px;
+}
