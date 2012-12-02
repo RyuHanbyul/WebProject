@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <jsp:include page="../share/link.jsp"></jsp:include>
+  <jsp:include page="./share/link.jsp"></jsp:include>
 </head>
 <body>
   <div id="wrap">
     <div id="top2">
-      <jsp:include page="../share/header.jsp"></jsp:include>
+      <jsp:include page="./share/header.jsp"></jsp:include>
       <div id ="first-nav" class="navbar navmenu" style="height:30px;">
           <div class="navbar-tabs navselect">
             <ul class="nav nav-tabs" id="myTab">
@@ -28,7 +28,7 @@
 							<jsp:include page="content.jsp"></jsp:include>
 							<jsp:include page="content.jsp"></jsp:include>
             </ul>
-            <jsp:include page="../modal/totalmodal.jsp"></jsp:include>
+            <jsp:include page="./modal/totalmodal.jsp"></jsp:include>
           </div>
         </div>
         <div class="tab-pane fade" id="myPin">
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    <jsp:include page="../share/footer.jsp"></jsp:include>
+    <jsp:include page="./share/footer.jsp"></jsp:include>
   </div>
 </body>
 </html>

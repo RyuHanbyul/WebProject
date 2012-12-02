@@ -3,9 +3,12 @@
   <display-name>Board</display-name>
   <welcome-file-list>
     <welcome-file>board</welcome-file>
-    <welcome-file>/board/index_board.html</welcome-file>
-    <welcome-file>/board/index_board.htm</welcome-file>
-    <welcome-file>/board/index_board.jsp</welcome-file>
+    <welcome-file>user</welcome-file>
+    <welcome-file>login</welcome-file>
+    <welcome-file>photoUpload</welcome-file>
+    <welcome-file>index_board.html</welcome-file>
+    <welcome-file>index_board.htm</welcome-file>
+    <welcome-file>index_board.jsp</welcome-file>
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>

@@ -6,12 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판</title>
-<link href="./css/bootstrap.min.css" rel="stylesheet">
-<link href="./css/base.css" rel="stylesheet">
+<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="./bootstrap/css/base.css" rel="stylesheet">
 <script src="./js/jquery-1.8.2.min.js"></script>
-<script src="./js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./js/HuskyEZCreator.js"
-	charset="utf-8"></script>
+<script src="./bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <body>
 	<div class="container">
@@ -31,22 +30,21 @@
 					<div class="container" style="clear: both">
 						<div style="float: left">
 							<label class="board-label" for="subject">UserID</label> <input
-								type="text" name="user_id" value="${substance.user_id}" /> <label
-								class="board-label" for="subject">Subject</label> <input
-								type="text" style="width: 700px" placeholder="제목" name="subject"
+								type="text" name="user_id" placeholder="ID"
+								value="${substance.user_id}" /> <label class="board-label"
+								for="subject">Subject</label> <input type="text"
+								style="width: 700px" placeholder="제목" name="subject"
 								value="${substance.subject}">
 						</div>
-						<div style="float: right">
-							<label class="board_label" for="category">Category</label> <select
-								class="span2" name="category">
-								<option value="seoul">서울</option>
-								<option value="gyeonggi">경기도</option>
-								<option value="gangwon">강원도</option>
-								<option value="chungcheong">충청도</option>
-								<option value="jeolla">전라도</option>
-								<option value="gyeongsang">경상도</option>
-								<option value="jeju">제주도</option>
-							</select>
+						<div class="control-group">
+							<label>Category</label>
+							<div class="controls">
+								<select name="category">
+									<c:forEach var="categoryName" items="${substance.categoryNames}">
+										<option ${substance.checkCategory(categoryName)}>${categoryName}</option>
+									</c:forEach>
+								</select>
+							</div>
 						</div>
 					</div>
 
@@ -57,15 +55,16 @@
 							<c:out value="${substance.content}" />
 						</textarea>
 					</div>
-
-					<jsp:include page="./map.jsp"></jsp:include>
-
+					
+					<input type="hidden" name="spot" id="spot" value="${substance.spot}"/> 
+					
+					
+						<jsp:include page="./map.jsp"></jsp:include>
 					<div class="form-actions" style="padding-left: 370px">
-						<a href="user" class="btn">목록으로</a>
+						<a href="board" class="btn">목록으로</a>
 						<c:choose>
 							<c:when test="${method=='POST'}">
-								<input type="button" class="btn btn-primary" onclick=send()
-									value="글쓰기">
+								<input type="button" class="btn btn-primary" onclick=send() value="글쓰기">
 							</c:when>
 							<c:otherwise>
 								<input type="submit" class="btn btn-primary" value="수정">
@@ -74,6 +73,9 @@
 					</div>
 				</fieldset>
 			</form>
+		
+			<div style="height:50px">
+			</div>
 		</div>
 	</div>
 </body>
@@ -87,7 +89,18 @@
 	});
 	function send() {
 		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+		trans();
 		document.getElementById('act').submit();
-	}
+	};
+	function trans(){
+		var markS="";
+			for(var i=0 ; i<markPoints.length;i++){
+				markS =markS.concat(markIds[i]+",")
+				markS =markS.concat(markPoints[i].getLat());
+				markS =markS.concat(","+markPoints[i].getLng()+";");
+			}
+		document.getElementById('spot').value = markS;
+	};
+
 </script>
 </html>

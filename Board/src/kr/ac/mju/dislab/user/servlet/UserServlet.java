@@ -124,23 +124,22 @@ public class UserServlet extends HttpServlet {
 		User user = new User();
 
 		request.setCharacterEncoding("utf-8");
-		String id = request.getParameter("id");
 		String email = request.getParameter("email");
+		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
 		String pwd_confirm = request.getParameter("pwd_confirm");
-		String name = request.getParameter("name");
 
 		List<String> errorMsgs = new ArrayList<String>();
 
 		// 회원가입 오류 메세지
 
 		if (isRegisterMode(request)) {
-			if(email != ""  && name != "" && pwd != "" ) {
+			if(email != ""  && userid != "" && pwd != "" ) {
 				if (pwd == null || pwd.length() < 5) {
 					errorMsgs.add("비밀번호는 5자 이상 입력해주세요.");
 				} else if (!pwd.equals(pwd_confirm)) {
 					errorMsgs.add("비밀번호가 일치하지 않습니다.");
-				} else {
+				}  else {
 					user.setPwd(pwd);
 				}
 			}else {
@@ -153,24 +152,26 @@ public class UserServlet extends HttpServlet {
 		if (email == null || email.trim().length() == 0) {
 			errorMsgs.add("Email 공백");
 		}
-
-		if (name == null || name.trim().length() == 0) {
-			errorMsgs.add("이름 공백");
+		
+		if (userid == null || userid.length() < 4) {
+			errorMsgs.add("ID를 4자 이상 입력해주세요.");
 		}
+		
+		user.setEmail(email);
+		user.setUserid(userid);
+	
 
 		//		if(useremail.equals(email)) {
 		//			errorMsgs.add("이미 등록된 Email입니다.");
 		//		}
 		
-		user.setEmail(email);
-		user.setName(name);
 
 		String msg="";
 
 		try {
 			if (isRegisterMode(request)) {
 				ret = UserDAO.create(user);
-				msg = "<b>" + name + "</b>님의 사용자 정보가 등록되었습니다.";
+				msg = "<br>" + userid + "</br>" + "님의 사용자 정보가 등록되었습니다.";
 				request.setAttribute("msg", msg);
 				actionUrl = "success.jsp";
 			} 

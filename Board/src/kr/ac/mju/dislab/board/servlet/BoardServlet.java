@@ -84,7 +84,7 @@ public class BoardServlet extends HttpServlet {
 				
 				if (ret) {
 					request.setAttribute("msg", "게시글이 삭제되었습니다.");
-					actionUrl = "success.jsp";
+					actionUrl = "board_success.jsp";
 				} else {
 					request.setAttribute("error", "게시글 삭제에 실패했습니다.");
 					actionUrl = "error.jsp";
@@ -120,9 +120,8 @@ public class BoardServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		boolean ret = false;
-		HttpSession session=request.getSession();
 		String actionUrl;
-		//String msg;
+		String msg;
 		Substance substance = new Substance();
 
 		request.setCharacterEncoding("utf-8");
@@ -130,6 +129,8 @@ public class BoardServlet extends HttpServlet {
 		String user_id = request.getParameter("user_id");
 		String subject = request.getParameter("subject");
 		String content = request.getParameter("content");
+		String category = request.getParameter("category");
+		String spot = request.getParameter("spot");
 		
 		List<String> errorMsgs = new ArrayList<String>();
 		
@@ -156,26 +157,32 @@ public class BoardServlet extends HttpServlet {
 			errorMsgs.add("내용을 반드시 입력해주세요.");
 		}
 		
+		substance.setCategory(category);
+		
 		substance.setSubject(subject);
 		content = content.replace("\r\n","<br/>");
 		substance.setContent(content);
 		substance.setUser_id(user_id);
+		if(spot!=null){
+			substance.setSpot(spot);
+		}
 		
 		try {
 			if (isRegisterMode(request)) {
 				ret = BoardDAO.create(substance);
-				//msg = "<b>" + name + "</b>님의 사용자 정보가 등록되었습니다.";
+				msg = "<b>" + user_id + "</b>님의 게시글 등록되었습니다.";
+				actionUrl = "board_success.jsp";
 			} else {
 				ret = BoardDAO.update(substance);
-				//msg = "<b>" + name + "</b>님의 사용자 정보가 수정되었습니다.";
-				actionUrl = "success.jsp";
+				msg = "<b>" + user_id + "</b>님의 게시글 수정되었습니다.";
+				actionUrl = "board_success.jsp";
 			}
 			if (ret != true) {
 				errorMsgs.add("변경에 실패했습니다.");
 				actionUrl = "error.jsp";
 			} else {
-			//	request.setAttribute("msg", msg);
-				actionUrl = "success.jsp";
+				request.setAttribute("msg", msg);
+				actionUrl = "board_success.jsp";
 				
 			}
 		} catch (SQLException | NamingException e) {

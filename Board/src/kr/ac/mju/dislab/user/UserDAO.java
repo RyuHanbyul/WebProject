@@ -53,14 +53,14 @@ public class UserDAO {
 			
 	 		// users 테이블 SELECT
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM users ORDER BY name LIMIT " + startPos + ", " + numItemsInPage);
+			rs = stmt.executeQuery("SELECT * FROM users ORDER BY id LIMIT " + startPos + ", " + numItemsInPage);
 			int i=0;
 			while(rs.next()) {
 				i++;
 				result.getList().add(new User(rs.getInt("id"),
 						rs.getString("email"),
+						rs.getString("userid"),
 						rs.getString("pwd"),
-						rs.getString("name"),
 						rs.getString("photo_url")
 						));
 			}
@@ -96,8 +96,8 @@ public class UserDAO {
 			if (rs.next()) {
 				user = new User(rs.getInt("id"),
 						rs.getString("email"),
+						rs.getString("userid"),
 						rs.getString("pwd"),
-						rs.getString("name"),
 						rs.getString("photo_url"));
 			}	
 		} finally {
@@ -134,8 +134,8 @@ public class UserDAO {
 				if(rs.next()) {
 					userinfo = new User(rs.getInt("id"),
 							rs.getString("email"),
+							rs.getString("userid"),
 							rs.getString("pwd"),
-							rs.getString("name"),
 							rs.getString("photo_url"));
 				}
 				
@@ -162,13 +162,13 @@ public class UserDAO {
 
 			// 질의 준비
 			stmt = conn.prepareStatement(
-					"INSERT INTO users(id, email, pwd, name, photo_url) " +
+					"INSERT INTO users(id, email, userid, pwd, photo_url) " +
 					"VALUES(?, ?, ?, ?, ?)"
 					);
 			stmt.setInt(1,  user.getId());
 			stmt.setString(2,  user.getEmail());
-			stmt.setString(3,  user.getPwd());
-			stmt.setString(4,  user.getName());
+			stmt.setString(3, user.getUserid());
+			stmt.setString(4, user.getPwd());
 			stmt.setString(5,  user.getPhotoUrl());
 			
 			// 수행
@@ -197,14 +197,13 @@ public class UserDAO {
 			// 질의 준비
 			stmt = conn.prepareStatement(
 					"UPDATE users " +
-					"SET email=?, name=?, photo_url=?"+
+					"SET userid=?, pwd=? photo_url=?"+
 					"WHERE id=?"
 					);
-			stmt.setInt(1,  user.getId());
-			stmt.setString(2,  user.getEmail());
-			stmt.setString(3,  user.getPwd());
-			stmt.setString(4,  user.getName());
-			stmt.setString(5,  user.getPhotoUrl());
+			stmt.setString(1,  user.getUserid());
+			stmt.setString(2,  user.getPwd());
+			stmt.setString(3,  user.getPhotoUrl());
+			stmt.setInt(4,  user.getId());
 			
 			// 수행
 			result = stmt.executeUpdate();

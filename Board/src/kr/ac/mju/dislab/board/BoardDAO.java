@@ -56,9 +56,10 @@ public class BoardDAO {
 			while(rs.next()) {
 				result.getList().add(new Substance(rs.getInt("id"),
 						rs.getString("user_id"),
-//						rs.getString("category_name"),
+						rs.getString("category"),
 						rs.getString("subject"),
 						rs.getString("content"),
+						rs.getString("spot"),
 						rs.getString("created_at")
 					));
 			}
@@ -94,11 +95,11 @@ public class BoardDAO {
 			if (rs.next()) {
 				substance = new Substance(rs.getInt("id"),
 						rs.getString("user_id"),
-//						rs.getString("category_name"),
+						rs.getString("category"),
 						rs.getString("subject"),
 						rs.getString("content"),
+						rs.getString("spot"),
 						rs.getString("created_at"));
-						
 			}		
 		} finally {
 			// 무슨 일이 있어도 리소스를 제대로 종료
@@ -125,14 +126,15 @@ public class BoardDAO {
 
 			// 질의 준비
 			stmt = conn.prepareStatement(
-					"INSERT INTO boards(user_id, subject, content) " +
-					"VALUES(?,?,?)"
+					"INSERT INTO boards(user_id, category, subject, content, spot) " +
+					"VALUES(?,?,?,?,?)"
 					);
 			stmt.setString(1,  substance.getUser_id());
-			stmt.setString(2,  substance.getSubject());
-			stmt.setString(3,  substance.getContent());
-			
-			
+			stmt.setString(2,  substance.getCategory());
+			stmt.setString(3,  substance.getSubject());
+			stmt.setString(4,  substance.getContent());
+			stmt.setString(5, substance.getSpot());
+		
 			// 수행
 			result = stmt.executeUpdate();
 		} finally {
@@ -161,13 +163,15 @@ public class BoardDAO {
 			// 질의 준비
 			stmt = conn.prepareStatement(
 					"UPDATE boards " +
-					"SET user_id=?,subject=?, content=?" +
+					"SET user_id=?, category=?, subject=?, content=?, spot=?" +
 					"WHERE id=?"
 					);
 			stmt.setString(1,  substance.getUser_id());
-			stmt.setString(2,  substance.getSubject());
-			stmt.setString(3,  substance.getContent());
-			stmt.setInt(4,  substance.getId());
+			stmt.setString(2,  substance.getCategory());
+			stmt.setString(3,  substance.getSubject());
+			stmt.setString(4,  substance.getContent());
+			stmt.setString(5,  substance.getSpot());
+			stmt.setInt(6,  substance.getId());
 			// 수행
 			result = stmt.executeUpdate();
 		} finally {

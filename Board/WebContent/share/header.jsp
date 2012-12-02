@@ -7,7 +7,7 @@
       <div id="top-left">
       </div>
       <div id="top-center">
-        <a href="./main.jsp"><img src="./images/logo.jpg" alt = "mainlogo"></a>
+        <a href="./main.jsp"><img src="./img/logo.jpg" alt = "mainlogo"></a>
        
 			</div>
 			<jsp:include page="./top-btn.jsp"></jsp:include>

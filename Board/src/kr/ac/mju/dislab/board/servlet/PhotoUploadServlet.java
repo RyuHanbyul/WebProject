@@ -41,7 +41,7 @@ public class PhotoUploadServlet extends HttpServlet{
 			
 		String call = multi.getParameter("callback_func");
 		String filepath = "/Board/upload/"+filename;
-		response.sendRedirect("http://localhost:8080/Board/board/popup/quick_photo/callback.html?callback_func="+call+"&bNewLine=true&sFileName="+filename+"&sFileURL="+filepath);
+		response.sendRedirect("http://localhost:8080/Board/popup/quick_photo/callback.html?callback_func="+call+"&bNewLine=true&sFileName="+filename+"&sFileURL="+filepath);
 		
 	}
 }

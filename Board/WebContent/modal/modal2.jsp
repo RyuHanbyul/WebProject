@@ -6,11 +6,7 @@
   </div>
   <div class="modal-body">
     <a href="#myModal2" class="thumbnail">
-      <img src="./images/Board.gif" alt="">
-      <div class="caption">
-        <h1>Thumbnail label</h1>
-        <p>입력내용.</p>
-      </div>
+      <jsp:include page="../show_board.jsp"></jsp:include>
     </a>
   </div>
 </div>

@@ -26,12 +26,14 @@ INSERT INTO users (id, email, pwd, name, photo_url) VALUES (5, 'dongseop5@gmail.
 CREATE TABLE boards (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	user_id VARCHAR(100) NOT NULL,
+	category VARCHAR(100),
 	subject VARCHAR(100) NOT NULL,
 	content TEXT NOT NULL,
+	spot VARCHAR(1000),
 	`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO boards(id, user_id, subject, content) VALUES (1, 'kj', 'testSubject1', 'testContent1');
+INSERT INTO boards(id, user_id, category, subject, content) VALUES (1, 'kj', 'seoul', 'testSubject1', 'testContent1');
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

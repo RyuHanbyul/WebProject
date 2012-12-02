@@ -5,10 +5,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>게시판</title>
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/base.css" rel="stylesheet">
-	<script src="js/jquery-1.8.2.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="./css/base.css" rel="stylesheet">
+	<script src="./js/jquery-1.8.2.min.js"></script>
+	<script src="./bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -26,7 +26,9 @@
 			<thead>
 				<tr>
 					<th style="width:10%; text-align:center;">Number</th>
-					<th style="width:70%; text-align:center;">subject</th>
+					<th style="width:70%; text-align:center;">Category</th>
+					<th style="width:70%; text-align:center;">Subject</th>
+					<th style="width:70%; text-align:center;">UserID</th>
 					<!-- th style="width:20%; text-align:center;">Name</th-->
 					<!-- <th></th> -->
 				</tr>
@@ -35,7 +37,9 @@
 			<c:forEach var="substance" items="${sub.list }">
 				<tr>
 					<td style="text-align:center;"><c:out value="${substance.id}"/></td>
+					<td style="text-align:center;"><c:out value="${substance.category}"/></td>
 					<td><a href="board?id=${substance.id}"><c:out value="${substance.subject}"/></td>
+					<td style="text-align:center;"><c:out value="${substance.user_id}"/></td>
 					<!-- <td><a href="user?op=update&id=${user.id}"
 						class="btn btn-mini">modify</a> <a href="#"
 						class="btn btn-mini btn-danger" data-action="delete"

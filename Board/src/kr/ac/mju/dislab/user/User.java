@@ -9,20 +9,20 @@ public class User implements java.io.Serializable {
 
 	private int id;
 	private String email;
+	private String userid;
 	private String pwd;
-	private String name;
 	private String photoUrl;
 		
 	// No-arg constructor 가 있어야 한다.
 	public User() {
 	}
 
-	public User(int id, String email, String pwd, String name, String photo_url) {
+	public User(int id, String email, String userid, String pwd, String photo_url) {
 		super();
 		this.id = id;
 		this.email = email;
+		this.userid = userid;
 		this.pwd = pwd;
-		this.name = name;
 		this.photoUrl = photo_url;
 	}
 
@@ -42,6 +42,14 @@ public class User implements java.io.Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 
 	public String getPwd() {
 		return pwd;
@@ -49,14 +57,6 @@ public class User implements java.io.Serializable {
 
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
-	}
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getPhotoUrl() {
