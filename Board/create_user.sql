@@ -7,33 +7,48 @@ GRANT ALL ON datecourse.* TO 'datec'@'localhost' IDENTIFIED BY '5713'
 use datecourse;
 
 CREATE TABLE users (
-id int AUTO_INCREMENT PRIMARY KEY, 
+uid int AUTO_INCREMENT PRIMARY KEY, 
 email VARCHAR(100) UNIQUE, 
-pwd VARCHAR(255) NOT NULL, 
-name VARCHAR(100) NOT NULL, 1
+userid VARCHAR(100) NOT NULL,
+pwd VARCHAR(255) NOT NULL,
+photoUrl VARCHAR(255), 
+`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+INSERT INTO users (uid, email, userid, pwd, photoUrl) VALUES (1, 'dongseop1@gmail.com', 'ds1', '12345', 'NULL');
+INSERT INTO users (uid, email, userid, pwd, photoUrl) VALUES (2, 'dongseop2@gmail.com', 'ds2', '12345', 'NULL');
+INSERT INTO users (uid, email, userid, pwd, photoUrl) VALUES (3, 'dongseop3@gmail.com', 'ds3', '12345', 'NULL');
+
+CREATE TABLE fbusers (
+fid int AUTO_INCREMENT PRIMARY KEY, 
+fb_id VARCHAR(100) UNIQUE, 
+userid VARCHAR(100) NOT NULL,
+pwd VARCHAR(255) NOT NULL,
 photo_url VARCHAR(255), 
 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
-INSERT INTO users (id, email, pwd, name, photo_url) VALUES (1, 'dongseop1@gmail.com', '12345', 'dongseop1', 'a');
-INSERT INTO users (id, email, pwd, name, photo_url) VALUES (2, 'dongseop2@gmail.com', '12345', 'dongseop2', 'b');
-INSERT INTO users (id, email, pwd, name, photo_url) VALUES (3, 'dongseop3@gmail.com', '12345', 'dongseop3', 'c');
-INSERT INTO users (id, email, pwd, name, photo_url) VALUES (4, 'dongseop4@gmail.com', '12345', 'dongseop4', 'd');
-INSERT INTO users (id, email, pwd, name, photo_url) VALUES (5, 'dongseop5@gmail.com', '12345', 'dongseop5', 'e');
-
-
-// 밑에 테이블부터는 꼭 필요하지 않은 이상 건들이지 말 것
+INSERT INTO fbusers (fid, fb_id, userid, pwd, photo_url) VALUES (1, '1', 'dongseop3', '12345', 'NULL');
+INSERT INTO fbusers (fid, fb_id, userid, pwd, photo_url) VALUES (2, '2', 'dongseop4', '12345', 'NULL');
+INSERT INTO fbusers (fid, fb_id, userid, pwd, photo_url) VALUES (3, '3', 'dongseop5', '12345', 'NULL');
 
 CREATE TABLE boards (
-	id INT AUTO_INCREMENT PRIMARY KEY,
+	sid INT AUTO_INCREMENT PRIMARY KEY,
 	user_id VARCHAR(100) NOT NULL,
 	category VARCHAR(100),
 	subject VARCHAR(100) NOT NULL,
 	content TEXT NOT NULL,
-	spot VARCHAR(1000),
+	spot VARCHAR(5000),
+	image VARCHAR(8000),
 	`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO boards(id, user_id, category, subject, content) VALUES (1, 'kj', 'seoul', 'testSubject1', 'testContent1');
+INSERT INTO boards(sid, user_id, category, subject, content) VALUES (1, 'kj', 'seoul', 'testSubject1', 'testContent1');
+
+CREATE TABLE pin (
+user_id VARCHAR(100) NOT NULL, 
+post_id int(10) NOT NULL, 
+`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+alter table pin add PRIMARY KEY(user_id, post_id);
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -63,10 +78,3 @@ post_id int(10) NOT NULL,
 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
 alter table like add PRIMARY KEY(user_id, post_id);
-
-CREATE TABLE pin (
-user_id int(10) NOT NULL, 
-post_id int(10) NOT NULL, 
-`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
-
-alter table pin add PRIMARY KEY(user_id, post_id);

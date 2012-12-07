@@ -20,12 +20,12 @@
 		<div class="control-group">
 			<!-- 로그인 error msg -->
 			<c:if test="${msg != null || msg.size() > 0}">
-				<div class="alert alert-error">${msg}</div>
+				<div class="alert alert-success">${msg}</div>
 			</c:if>
 		</div>
 		<div class="control-group">
 			<c:choose>
-				<c:when test="${id != null}" >
+				<c:when test="${id != null}">
 					<div class="control-group">
 						<a href="login?op=logout" class="btn btn-mini btn-danger">로그아웃</a>
 					</div>
@@ -36,27 +36,24 @@
 							Email: <input type="text" name="email"> Password: <input
 								type="password" name="pwd"> <input type="submit"
 								value="login">
-						</form>
 					</div>
+					<div class="control-group">
+						<h2>OR</h2>
+					</div>
+
+					<div class="control-group">
+
+						<!-- Facebook 접속 버튼 -->
+						<a class="fb_button fb_button_large" id="btnLogin"
+							href="FBAuthServlet.do" data-size="xlarge"> <span
+							class="fb_button_text"> Log In</span>
+						</a>
+					</div>
+					</form>
 				</c:otherwise>
 			</c:choose>
 		</div>
-
-
-		<div class="control-group">
-			<h2>OR</h2>
-		</div>
-
-		<div class="control-group">
-
-			<!-- Facebook 접속 버튼 -->
-			<a class="fb_button fb_button_large" id="btnLogin"
-				href="FBAuthServlet.do" data-size="xlarge"> <span
-				class="fb_button_text"> Log In</span>
-			</a>
-		</div>
 	</div>
-
 	<jsp:include page="./share/footer.jsp"></jsp:include>
 </body>
 </html>

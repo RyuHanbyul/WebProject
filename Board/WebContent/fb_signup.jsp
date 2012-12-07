@@ -19,43 +19,63 @@
 		<div>
 			<form class="form-horizontal" action="fbuser" method="POST">
 				<fieldset>
-					<legend class="legend">Create your account</legend>
+					<c:choose>
+						<c:when test="${fbid==null}">
+							<legend class="legend">Create your account</legend>
+						</c:when>
+						<c:otherwise>
+							<legend class="legend">Edit Profile !</legend>
+						</c:otherwise>
+					</c:choose>
+
 					<c:if test="${method == 'PUT'}">
 						<input type="hidden" name="id" value="${fbuser.id}" />
 						<input type="hidden" name="_method" value="PUT" />
 					</c:if>
-					<div class="control-group">
-						<div class="controls">
-							<input type="text" placeholder="User ID" name="userid"
-								value="${fbuser.userid}">
-						</div>
-					</div>
+
 
 					<input type="hidden" name="fbid" value="${me.id}">
 
-					<c:if test="${method == 'POST'}">
-						<%-- 신규 가입일 때만 비밀번호 입력창을 나타냄 --%>
+					<c:if test="${fbid!=null }">
 						<div class="control-group">
-							<div class="controls">
-								<input type="password" placeholder="Password" name="pwd">
+							<div class="controls signupInput">
+								<input type="text" placeholder="User ID" disabled="disabled"
+									name="userid" value="${fbuser.userid}">
 							</div>
 						</div>
+					</c:if>
 
+					<c:if test="${method == 'POST'}">
+						<%-- 신규 가입일 때만 유저ID 입력창을 나타냄 --%>
 						<div class="control-group">
-							<div class="controls">
-								<input type="password" placeholder="Password Confirm"
-									name="pwd_confirm">
+							<div class="controls signupInput">
+								<input type="text" placeholder="User ID" name="userid"
+									value="${fbuser.userid}">
 							</div>
 						</div>
 					</c:if>
 
 					<div class="control-group">
-						<div class="controls">
-							<input type="image" name="photoUrl"
-								src="https://graph.facebook.com/${me.id}/picture?type=large"
-								value="https://graph.facebook.com/${me.id}/picture?type=large" />
+						<div class="controls signupInput">
+							<input type="password" placeholder="Password" name="pwd">
 						</div>
 					</div>
+
+					<div class="control-group">
+						<div class="controls signupInput">
+							<input type="password" placeholder="Password Confirm"
+								name="pwd_confirm">
+						</div>
+					</div>
+					<c:if test="${method == 'POST'}">
+						<div class="control-group">
+							<div class="controls signupInput">
+								<input type="image" name="photoUrl"
+									src="https://graph.facebook.com/${me.id}/picture?type=large"
+									value="https://graph.facebook.com/${me.id}/picture?type=large" />
+							</div>
+						</div>
+					</c:if>
 
 					<div class="form-action">
 						<c:choose>

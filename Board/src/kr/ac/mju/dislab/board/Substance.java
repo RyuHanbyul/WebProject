@@ -13,23 +13,25 @@ public class Substance implements java.io.Serializable {
 	private String category;
 	private String subject;
 	private String content;
-	private String created_at;
 	private String spot;
-	
+	private String image;
+	private String created_at;
+
 	public Substance() {
 	}
 
-	public Substance(int id, String user_id, String category, String subject, String content, String spot, String created_at) {
-		this.id = id;
+	public Substance(int sid, String user_id, String category, String subject, String content, String spot,String image, String created_at) {
+		this.id = sid;
 		this.user_id = user_id;
 		this.category = category;
 		this.subject = subject;
 		this.content = content;
 		this.spot = spot;
+		this.image = image;
 		this.created_at = created_at;
 	}
-	public void setId(int id){
-		this.id = id;
+	public void setId(int sid){
+		this.id = sid;
 	}
 	public int getId(){
 		return id;
@@ -81,5 +83,14 @@ public class Substance implements java.io.Serializable {
 	}
 	public String getSpot(){
 		return spot;
+	}
+	public void setImage(String image){
+		this.image = image;
+	}
+	public String getImage(){
+		return image;
+	}
+	public void addImage(String image){
+		this.content+=image;
 	}
 }

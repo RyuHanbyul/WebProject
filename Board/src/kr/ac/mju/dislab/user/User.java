@@ -17,13 +17,17 @@ public class User implements java.io.Serializable {
 	public User() {
 	}
 
-	public User(int id, String email, String userid, String pwd, String photo_url) {
+	public User(int uid, String email, String userid, String pwd, String photoUrl) {
 		super();
-		this.id = id;
+		this.id = uid;
 		this.email = email;
 		this.userid = userid;
 		this.pwd = pwd;
-		this.photoUrl = photo_url;
+		this.photoUrl = photoUrl;
+	}
+	
+	public User(String userid) {
+		this.userid = userid;
 	}
 
 	// getter & setter 가 있어야 한다. (Eclipse 에서 자동 생성 가능)
@@ -31,8 +35,8 @@ public class User implements java.io.Serializable {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int uid) {
+		this.id = uid;
 	}
 
 	public String getEmail() {
@@ -63,7 +67,7 @@ public class User implements java.io.Serializable {
 		return photoUrl;
 	}
 
-	public void setPhotoUrl(String photo_url) {
-		this.photoUrl = photo_url;
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
 	}
 }

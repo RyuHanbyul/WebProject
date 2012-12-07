@@ -57,11 +57,11 @@ public class UserDAO {
 			int i=0;
 			while(rs.next()) {
 				i++;
-				result.getList().add(new User(rs.getInt("id"),
+				result.getList().add(new User(rs.getInt("uid"),
 						rs.getString("email"),
 						rs.getString("userid"),
 						rs.getString("pwd"),
-						rs.getString("photo_url")
+						rs.getString("photoUrl")
 						));
 			}
 		} finally {
@@ -87,18 +87,18 @@ public class UserDAO {
 			conn = ds.getConnection();
 
 			// 질의 준비
-			stmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
+			stmt = conn.prepareStatement("SELECT * FROM users WHERE uid = ?");
 			stmt.setInt(1, id);
 			
 			// 수행
 			rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				user = new User(rs.getInt("id"),
+				user = new User(rs.getInt("uid"),
 						rs.getString("email"),
 						rs.getString("userid"),
 						rs.getString("pwd"),
-						rs.getString("photo_url"));
+						rs.getString("photoUrl"));
 			}	
 		} finally {
 			// 무슨 일이 있어도 리소스를 제대로 종료
@@ -120,9 +120,10 @@ public class UserDAO {
 	
 		
 		DataSource ds = getDataSource();
-		conn = ds.getConnection();
+		
 		
 		try {
+			conn = ds.getConnection();
 			// 질의 준비
 		
 				stmt = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
@@ -132,11 +133,48 @@ public class UserDAO {
 				rs = stmt.executeQuery();
 				
 				if(rs.next()) {
-					userinfo = new User(rs.getInt("id"),
+					userinfo = new User(rs.getInt("uid"),
 							rs.getString("email"),
 							rs.getString("userid"),
 							rs.getString("pwd"),
-							rs.getString("photo_url"));
+							rs.getString("photoUrl"));
+				}
+				
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+		
+		return userinfo;
+	}
+	
+	public static User findByUserIdFromId(int id) throws NamingException, SQLException{
+		User userinfo=null;
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+	
+		
+		DataSource ds = getDataSource();
+		
+		
+		try {
+			conn = ds.getConnection();
+			// 질의 준비
+		
+				stmt = conn.prepareStatement("SELECT userid FROM users WHERE uid = ?");
+				stmt.setInt(1, id);
+				
+				// 수행
+				rs = stmt.executeQuery();
+				
+				if(rs.next()) {
+					userinfo = new User(
+							rs.getString("userid"));
 				}
 				
 		} finally {
@@ -162,7 +200,7 @@ public class UserDAO {
 
 			// 질의 준비
 			stmt = conn.prepareStatement(
-					"INSERT INTO users(id, email, userid, pwd, photo_url) " +
+					"INSERT INTO users(uid, email, userid, pwd, photoUrl) " +
 					"VALUES(?, ?, ?, ?, ?)"
 					);
 			stmt.setInt(1,  user.getId());
@@ -197,13 +235,12 @@ public class UserDAO {
 			// 질의 준비
 			stmt = conn.prepareStatement(
 					"UPDATE users " +
-					"SET userid=?, pwd=? photo_url=?"+
-					"WHERE id=?"
+					"SET pwd=?, photoUrl=? "+
+					"WHERE uid=?"
 					);
-			stmt.setString(1,  user.getUserid());
-			stmt.setString(2,  user.getPwd());
-			stmt.setString(3,  user.getPhotoUrl());
-			stmt.setInt(4,  user.getId());
+			stmt.setString(1,  user.getPwd());
+			stmt.setString(2,  user.getPhotoUrl());
+			stmt.setInt(3,  user.getId());
 			
 			// 수행
 			result = stmt.executeUpdate();
@@ -229,7 +266,7 @@ public class UserDAO {
 			conn = ds.getConnection();
 
 			// 질의 준비
-			stmt = conn.prepareStatement("DELETE FROM users WHERE id=?");
+			stmt = conn.prepareStatement("DELETE FROM users WHERE uid=?");
 			stmt.setInt(1,  id);
 			
 			// 수행

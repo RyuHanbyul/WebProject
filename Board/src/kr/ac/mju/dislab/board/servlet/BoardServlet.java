@@ -15,7 +15,17 @@ import javax.servlet.http.HttpSession;
 
 //import org.apache.commons.lang3.StringUtils;
 
-import kr.ac.mju.dislab.board.*;
+import kr.ac.mju.dislab.board.BoardAndUser;
+import kr.ac.mju.dislab.board.PageResult;
+import kr.ac.mju.dislab.board.Repin;
+import kr.ac.mju.dislab.board.RepinDAO;
+import kr.ac.mju.dislab.board.Substance;
+import kr.ac.mju.dislab.board.BoardDAO;
+import kr.ac.mju.dislab.user.User;
+import kr.ac.mju.dislab.user.FacebookUser;
+import kr.ac.mju.dislab.user.UserDAO;
+import kr.ac.mju.dislab.user.FacebookUserDAO;
+
 
 /**
  * Servlet implementation class User
@@ -23,18 +33,18 @@ import kr.ac.mju.dislab.board.*;
 @WebServlet("/board")
 public class BoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public BoardServlet() {
-        super();
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public BoardServlet() {
+		super();
+	}
 
 
 	private int getIntFromParameter(String str, int defaultValue) {
 		int id;
-		
+
 		try {
 			id = Integer.parseInt(str);
 		} catch (Exception e) {
@@ -47,41 +57,125 @@ public class BoardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//HttpSession session=request.getSession();
+
 		String op = request.getParameter("op");
 		String actionUrl = "";
 		boolean ret;
-		
+
 		int id = getIntFromParameter(request.getParameter("id"), -1);
-		//int user_id = (int) session.getAttribute("id");
+
 		if (op == null && id > 0) {
 			op = "show";
 		}
-		
+
 		try {
 			if (op == null || op.equals("index")) {
 				int page = getIntFromParameter(request.getParameter("page"), 1);
-				
+
 				PageResult<Substance> sub = BoardDAO.getPage(page, 10);
 				request.setAttribute("sub", sub);
 				request.setAttribute("page", page);
-				actionUrl = "index_board.jsp";
-			} else if (op.equals("show")) {
+
+				ArrayList<BoardAndUser> baus = BoardDAO.joinboardandusers();
+				request.setAttribute("baus", baus);
+				
+				actionUrl = "main.jsp";
+			} else if(op.equals("index2")){
+				int page = getIntFromParameter(request.getParameter("page"), 1);
+
+				PageResult<Substance> sub = BoardDAO.getPage(page, 10);
+				request.setAttribute("sub", sub);
+				request.setAttribute("page", page);
+
+				ArrayList<BoardAndUser> baus = BoardDAO.joinboardandusers();
+				request.setAttribute("baus", baus);
+
+				actionUrl = "board_index.jsp";
+			}else if (op.equals("show")) {
 				Substance substance = BoardDAO.findById(id);
 				request.setAttribute("substance", substance);
-
-				actionUrl = "show_board.jsp";
-			} else if (op.equals("update")) {
-					Substance substance = BoardDAO.findById(id);
-					substance.setContent(substance.getContent().replace("<br/>","\r\n"));
-					request.setAttribute("substance", substance);
-					request.setAttribute("method", "PUT");
-				actionUrl = "write.jsp";
 				
+				HttpSession session = request.getSession(false);
+				if(session.getAttribute("id") != null) { 		
+					int idd = (int) session.getAttribute("id");
+					System.out.println("session에 저장된 id :" + idd);
+					User user = UserDAO.findById(idd);
+					request.setAttribute("user", user);
+					
+					actionUrl = "board_show.jsp";
+				}else if(session.getAttribute("fbid") != null) {
+					String fbidd = (String)session.getAttribute("fbid");
+					System.out.println("session에 저장된 fbid :" + fbidd);
+					FacebookUser fbuser = FacebookUserDAO.findByFbId(fbidd);
+					System.out.println("fbuser의 fbuserid :" + fbuser.getUserid());
+					request.setAttribute("fbuser", fbuser);
+					
+					System.out.println("fbuser의 getuserid :" + fbuser.getUserid());
+					
+					actionUrl = "board_show.jsp";
+				}else {
+					actionUrl = "login.jsp";
+				}
+			} else if(op.equals("repin")) { 
+				Substance substance = BoardDAO.findById(id);
+				request.setAttribute("substance", substance);
+				int post_id = substance.getId();
+				System.out.println("post_id :"+post_id);
+				
+				HttpSession session = request.getSession(false);
+				if(session.getAttribute("id") != null) { 		
+					int user_id = (int) session.getAttribute("id");
+					System.out.println("user_id: " + user_id);
+					
+					RepinDAO.userrepin(user_id, post_id);
+					
+					actionUrl = "success.jsp";
+				}else if(session.getAttribute("fbid") != null) {
+					String user_id = (String) session.getAttribute("fbid");
+					System.out.println("user_id: " + user_id);
+					
+					RepinDAO.fbuserrepin(user_id, post_id);
+					actionUrl = "success.jsp";
+				}else {
+					actionUrl = "error.jsp";
+				}
+			}else if (op.equals("mypin")) {
+				Substance substance = BoardDAO.findById(id);
+				request.setAttribute("substance", substance);
+				
+				ArrayList<BoardAndUser> baus = BoardDAO.joinboardandusers();
+				request.setAttribute("baus", baus);
+				
+				HttpSession session = request.getSession(false);
+				
+				if(session.getAttribute("id") != null) { 		
+					int user_id = (int) session.getAttribute("id");
+					System.out.println("user_id: " + user_id);
+					
+					Repin repin = RepinDAO.findByUserId(user_id);
+					request.setAttribute("repin", repin);
+					
+					actionUrl = "Mypin.jsp";
+				}else if(session.getAttribute("fbid") != null) {
+					String user_id = (String) session.getAttribute("fbid");
+					System.out.println("user_id: " + user_id);
+					
+					Repin repin = RepinDAO.findByUserFbId(user_id);
+					request.setAttribute("repin", repin);
+					actionUrl = "Mypin.jsp";
+				}else {
+					actionUrl = "error.jsp";
+				}
+			}else if (op.equals("update")) {
+				Substance substance = BoardDAO.findById(id);
+				request.setAttribute("substance", substance);
+				request.setAttribute("method", "PUT");
+
+				actionUrl = "board_write.jsp";
 			} else if (op.equals("delete")) {
 				ret = BoardDAO.remove(id);
 				request.setAttribute("result", ret);
-				
+
 				if (ret) {
 					request.setAttribute("msg", "게시글이 삭제되었습니다.");
 					actionUrl = "board_success.jsp";
@@ -89,12 +183,20 @@ public class BoardServlet extends HttpServlet {
 					request.setAttribute("error", "게시글 삭제에 실패했습니다.");
 					actionUrl = "error.jsp";
 				}
-					
-			} else if (op.equals("signup")) {
+
+			}  else if (op.equals("signup")) {
+				HttpSession session = request.getSession(false);
+				if(session.getAttribute("id") != null ) { // 세션에 저장된 값이 User Login할 때 저장된 값이면
+					session.getAttribute("id");
+				}else if(session.getAttribute("fbid") != null) { // 세션에 저장된 값이 FacebookUser Login할 때 저장된 값이면
+					session.getAttribute("fbid");
+				}
+
 				request.setAttribute("method", "POST");
 				request.setAttribute("substance", new Substance());
-				actionUrl = "write.jsp";
-			} else {
+
+				actionUrl = "board_write.jsp";
+			} else{
 				request.setAttribute("error", "알 수 없는 명령입니다");
 				actionUrl = "error.jsp";
 			}
@@ -103,10 +205,10 @@ public class BoardServlet extends HttpServlet {
 			e.printStackTrace();
 			actionUrl = "error.jsp";
 		}
-		
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher(actionUrl);
 		dispatcher.forward(request,  response);
-		
+
 	}
 
 
@@ -125,56 +227,87 @@ public class BoardServlet extends HttpServlet {
 		Substance substance = new Substance();
 
 		request.setCharacterEncoding("utf-8");
-		
-		String user_id = request.getParameter("user_id");
+
 		String subject = request.getParameter("subject");
 		String content = request.getParameter("content");
 		String category = request.getParameter("category");
 		String spot = request.getParameter("spot");
-		
-		List<String> errorMsgs = new ArrayList<String>();
-		
-		if (isRegisterMode(request)) {
-			if (subject == null || subject.trim().length() == 0) {
-				errorMsgs.add("제목을 반드시 입력해주세요.");
-			
-				
-			}
-			if (content == null || content.trim().length() == 0) {
-				errorMsgs.add("내용을 반드시 입력해주세요.");
-			} 
-		} else {
-			substance.setId(getIntFromParameter(request.getParameter("id"), -1));
-		}
+		String image = request.getParameter("image");
 
-		
-		if (subject == null || subject.trim().length() == 0) {
-			errorMsgs.add("제목을 반드시 입력해주세요.");
-		
-			
-		}
-		if (content == null || content.trim().length() == 0) {
-			errorMsgs.add("내용을 반드시 입력해주세요.");
-		}
-		
+		List<String> errorMsgs = new ArrayList<String>();
+
+		if(subject != "" & content != "") {
+			if(isRegisterMode(request)) {
+				HttpSession session = request.getSession(false);
+				if(session.getAttribute("id") != null ) { 
+					try {
+						int id = (int) session.getAttribute("id");
+						System.out.println("session에 저장된 User의 id :"+id);
+						User user = UserDAO.findByUserIdFromId(id);
+						String userid = user.getUserid();
+						System.out.println("User의 Userid :" + userid);
+						substance.setUser_id(userid);
+
+					} catch (NamingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	
+				}else if(session.getAttribute("fbid") != null) {
+					try {
+						String fbid = (String)session.getAttribute("fbid");
+						System.out.println("session에 저장된 FBUser의 id :"+fbid);
+						FacebookUser fbuser = FacebookUserDAO.findByUserIdFromId(fbid);
+						String userid = fbuser.getUserid();
+						System.out.println(userid);
+						substance.setUser_id(userid);
+					} catch (NamingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	
+				}
+
+			}else {
+				substance.setId(getIntFromParameter(request.getParameter("id"), -1));
+			}
+			if(subject == null || subject.trim().length() == 0) {
+				errorMsgs.add("제목을 반드시 입력해주세요.");
+			}
+			if(content == null || content.trim().length() == 0) {
+				errorMsgs.add("내용을 반드시 입력해주세요.");
+			}
+			substance.setSubject(subject);
+			substance.setContent(content);
+		} 
+
 		substance.setCategory(category);
-		
-		substance.setSubject(subject);
-		content = content.replace("\r\n","<br/>");
-		substance.setContent(content);
-		substance.setUser_id(user_id);
+
 		if(spot!=null){
 			substance.setSpot(spot);
 		}
-		
+
+		if(image!=null&&(!(image.equals("")))){
+			substance.setImage(image);
+		}else{
+			substance.setImage("<img src=\"/Board/upload/firstback.jpg \" alt = \"사진\">");
+			substance.addImage("<img src=\"/Board/upload/firstback.jpg \" alt = \"사진\">");
+			
+		}
+
+
 		try {
 			if (isRegisterMode(request)) {
 				ret = BoardDAO.create(substance);
-				msg = "<b>" + user_id + "</b>님의 게시글 등록되었습니다.";
+				msg = "게시글 등록되었습니다.";
 				actionUrl = "board_success.jsp";
 			} else {
 				ret = BoardDAO.update(substance);
-				msg = "<b>" + user_id + "</b>님의 게시글 수정되었습니다.";
+				msg = "게시글 수정되었습니다.";
 				actionUrl = "board_success.jsp";
 			}
 			if (ret != true) {
@@ -183,13 +316,13 @@ public class BoardServlet extends HttpServlet {
 			} else {
 				request.setAttribute("msg", msg);
 				actionUrl = "board_success.jsp";
-				
+
 			}
 		} catch (SQLException | NamingException e) {
 			errorMsgs.add(e.getMessage());
 			actionUrl = "error.jsp";
 		}
-		
+
 		request.setAttribute("errorMsgs", errorMsgs);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(actionUrl);
 		dispatcher.forward(request,  response);

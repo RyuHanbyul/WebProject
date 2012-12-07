@@ -11,7 +11,10 @@
 }
 
 .form-action {
-	padding-left: 500px;
-	padding-top: 30px;
+	text-align:center;
 	height: 90px;
+}
+.signupInput{
+	text-align: center;
+	margin-right: 170px;
 }

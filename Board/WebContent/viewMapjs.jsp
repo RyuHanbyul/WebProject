@@ -1,5 +1,5 @@
 <script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=489fa31492fda50bdedfa5c44079de63b605160a" charset="utf-8"></script>  
-<script src="./js/jquery-1.8.2.min.js"></script>
+<script src="./js/jquery-1.8.3.js"></script>
 <script language="Javascript" type="text/javascript">
     var markId;
     var markIds = new Array();

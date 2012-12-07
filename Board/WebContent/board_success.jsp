@@ -8,9 +8,7 @@
 <link rel="stylesheet" type="text/css" href="./css/login.css">
 </head>
 <body>
-	<jsp:include page="./share/header.jsp">
-		<jsp:param name="current" value="Sign Up" />
-	</jsp:include>
+	<jsp:include page="./share/header.jsp"></jsp:include>
 	<div class="container">
 		<div class="control-group">
 			<div class="alert alert-success">${msg}</div>

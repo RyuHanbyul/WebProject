@@ -1,5 +1,5 @@
 ﻿<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=489fa31492fda50bdedfa5c44079de63b605160a" charset="utf-8"></script>  
-<script src="./js/jquery-1.8.2.min.js"></script>
+<script src="./js/jquery-1.8.3.js" type="text/javascript"></script>
 <script language="Javascript" type="text/javascript">
     var markId;
     var markIds = new Array();
@@ -130,31 +130,37 @@
             if(markId=="f"){
                 new daum.maps.Marker({position : point, image:foodIcon}).setMap(daumMap.map);
                 markPoints.push(point);
+                markIds.push(markId);
                 this.line();
                 markId = null;
             }else if(markId=="c"){
                 new daum.maps.Marker({position : point, image:cafeIcon}).setMap(daumMap.map);
                 markPoints.push(point);
+                markIds.push(markId);
                 this.line();
                 markId = null;
             }else if(markId=="m"){
                 new daum.maps.Marker({position : point, image:movieIcon}).setMap(daumMap.map);
                 markPoints.push(point);
+                markIds.push(markId);
                 this.line();
                 markId = null;
             }else if(markId=="s"){
                 new daum.maps.Marker({position : point, image:shoppingIcon}).setMap(daumMap.map);
                 markPoints.push(point);
+                markIds.push(markId);
                 this.line();
                 markId = null;
             }else if(markId=="t"){
                 new daum.maps.Marker({position : point, image:motelIcon}).setMap(daumMap.map);
                 markPoints.push(point);
+                markIds.push(markId);
                 this.line();
                 markId = null;
             }else if(markId=="i"){
                 new daum.maps.Marker({position : point, image:sightsIcon}).setMap(daumMap.map);
                 markPoints.push(point);
+                markIds.push(markId);
                 this.line();
                 markId = null;
             }
@@ -168,7 +174,6 @@
 	$(function(){
 		$(".icon").click(function(){
 			markId = $(this).attr("id");
-			markIds.push($(this).attr("id"));
 		});
 	});
 </script>  

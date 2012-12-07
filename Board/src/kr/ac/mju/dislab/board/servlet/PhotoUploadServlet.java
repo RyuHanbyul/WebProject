@@ -26,8 +26,6 @@ public class PhotoUploadServlet extends HttpServlet{
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
-		
 		MultipartRequest multi = null;
 		// 전송을 담당할 콤포넌트를 생성하고 파일을 전송한다.
 		// 전송할 파일명을 가지고 있는 객체, 서버상의 절대경로 , 최대 업로드될 파일 크기
