@@ -63,13 +63,13 @@ public class LoginServlet extends HttpServlet {
 			
 			session.invalidate();
 			actionUrl = "logout.jsp";
+		}else if (fbop == null || fbop.equals("index")) {
+
+			actionUrl = "login.jsp";
 		} else if (fbop.equals("logout")) {
 
 			session.invalidate();
 			actionUrl = "logout.jsp";
-		}else if (fbop == null || fbop.equals("index")) {
-
-			actionUrl = "login.jsp";
 		}
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(actionUrl);
@@ -118,11 +118,11 @@ public class LoginServlet extends HttpServlet {
 				e.printStackTrace();
 				actionUrl = "error.jsp";
 			}
-		}  else if (pwd == "" ) {
-			request.setAttribute("msg", "pwd를 입력해주세요!");
-			actionUrl = "login.jsp";
-		}else if (email == "" && pwd == "") {
+		} else if (email == "" && pwd == "") {
 			request.setAttribute("msg", "email과 pwd를 입력해주세요!");
+			actionUrl = "login.jsp";
+		} else if (pwd == "" ) {
+			request.setAttribute("msg", "pwd를 입력해주세요!");
 			actionUrl = "login.jsp";
 		}
 

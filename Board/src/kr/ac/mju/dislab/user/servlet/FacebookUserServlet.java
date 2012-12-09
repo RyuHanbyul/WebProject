@@ -77,15 +77,11 @@ public class FacebookUserServlet extends HttpServlet {
 				request.setAttribute("fbusers", fbusers);
 				request.setAttribute("page", page);
 				actionUrl = "fb_index.jsp";
-			}else if (op.equals("update")) {
-				HttpSession session = request.getSession(false);
-				if (session != null) {
-					String fbid = (String) session.getAttribute("fbid");
-					FacebookUser fbuser = FacebookUserDAO.findByFbId(fbid);
-					request.setAttribute("fbuser", fbuser);
-				}
-				request.setAttribute("method", "PUT");
-				actionUrl = "fb_signup.jsp";
+			} else if (op.equals("show")) {
+				FacebookUser fbuser = FacebookUserDAO.findById(id);
+				request.setAttribute("fbuser", fbuser);
+
+				actionUrl = "show.jsp";
 			} else if (op.equals("mypage")) {
 				HttpSession session = request.getSession(false);
 				if (session != null){
@@ -106,15 +102,15 @@ public class FacebookUserServlet extends HttpServlet {
 				request.setAttribute("pins", pins);
 				
 				actionUrl = "fb_mypage.jsp";
-			} else if (op.equals("signup")) {
-				request.setAttribute("method", "POST");
-				request.setAttribute("fbuser", new FacebookUser());
+			} else if (op.equals("update")) {
+				HttpSession session = request.getSession(false);
+				if (session != null) {
+					String fbid = (String) session.getAttribute("fbid");
+					FacebookUser fbuser = FacebookUserDAO.findByFbId(fbid);
+					request.setAttribute("fbuser", fbuser);
+				}
+				request.setAttribute("method", "PUT");
 				actionUrl = "fb_signup.jsp";
-			} else if (op.equals("show")) {
-				FacebookUser fbuser = FacebookUserDAO.findById(id);
-				request.setAttribute("fbuser", fbuser);
-
-				actionUrl = "show.jsp";
 			} else if (op.equals("delete")) {
 				ret = FacebookUserDAO.remove(id);
 				request.setAttribute("result", ret);
@@ -127,7 +123,11 @@ public class FacebookUserServlet extends HttpServlet {
 					actionUrl = "error.jsp";
 				}
 
-			}  else {
+			} else if (op.equals("signup")) {
+				request.setAttribute("method", "POST");
+				request.setAttribute("fbuser", new FacebookUser());
+				actionUrl = "fb_signup.jsp";
+			} else {
 				request.setAttribute("error", "알 수 없는 명령입니다");
 				actionUrl = "error.jsp";
 			}

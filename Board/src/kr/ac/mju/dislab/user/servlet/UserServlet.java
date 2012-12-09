@@ -87,44 +87,12 @@ public class UserServlet extends HttpServlet {
 				request.setAttribute("users", users);
 				request.setAttribute("page", page);
 				actionUrl = "user_index.jsp";
-			}else if (op.equals("update")) {
-				HttpSession session = request.getSession(false);
-				if (session != null)
-					session.getAttribute("id");
-
-				User user = UserDAO.findById(id);
-				request.setAttribute("user", user);
-				request.setAttribute("method", "PUT");
-
-				actionUrl = "user_signup.jsp";
-			}  else if (op.equals("show")) {
+			} else if (op.equals("show")) {
 				User user = UserDAO.findById(id);
 				request.setAttribute("user", user);
 
 				actionUrl = "user_show.jsp";
-			} else if (op.equals("admin")) {
-				HttpSession session = request.getSession(false);
-				if (session != null)
-					session.getAttribute("id");
-
-				actionUrl = "admin.jsp";
-			} else if (op.equals("delete")) {
-				ret = UserDAO.remove(id);
-				request.setAttribute("result", ret);
-
-				if (ret) {
-					request.setAttribute("msg", "사용자 정보가 삭제되었습니다.");
-					actionUrl = "success.jsp";
-				} else {
-					request.setAttribute("error", "사용자 정보 삭제에 실패했습니다.");
-					actionUrl = "error.jsp";
-				}
-
-			} else if (op.equals("signup")) {
-				request.setAttribute("user", new User());
-				request.setAttribute("method", "POST");
-				actionUrl = "user_signup.jsp";
-			}  else if (op.equals("mypage")) {
+			} else if (op.equals("mypage")) {
 				HttpSession session = request.getSession(false);
 				if (session != null){
 					session.getAttribute("id");
@@ -144,7 +112,39 @@ public class UserServlet extends HttpServlet {
 				request.setAttribute("pins", pins);
 				
 				actionUrl = "mypage.jsp";
-			}else {
+			} else if (op.equals("admin")) {
+				HttpSession session = request.getSession(false);
+				if (session != null)
+					session.getAttribute("id");
+
+				actionUrl = "admin.jsp";
+			} else if (op.equals("update")) {
+				HttpSession session = request.getSession(false);
+				if (session != null)
+					session.getAttribute("id");
+
+				User user = UserDAO.findById(id);
+				request.setAttribute("user", user);
+				request.setAttribute("method", "PUT");
+
+				actionUrl = "user_signup.jsp";
+			} else if (op.equals("delete")) {
+				ret = UserDAO.remove(id);
+				request.setAttribute("result", ret);
+
+				if (ret) {
+					request.setAttribute("msg", "사용자 정보가 삭제되었습니다.");
+					actionUrl = "success.jsp";
+				} else {
+					request.setAttribute("error", "사용자 정보 삭제에 실패했습니다.");
+					actionUrl = "error.jsp";
+				}
+
+			} else if (op.equals("signup")) {
+				request.setAttribute("user", new User());
+				request.setAttribute("method", "POST");
+				actionUrl = "user_signup.jsp";
+			} else {
 				request.setAttribute("error", "알 수 없는 명령입니다");
 				actionUrl = "error.jsp";
 			}
