@@ -13,8 +13,8 @@
 		<c:otherwise>
 			<c:if test="${id != null  }">
 				<p style="text-align:right;">
-					<a class="btn btn-small top_btn" href="login?op=logout">로그아웃</a> <a
-						class="btn btn-small top_btn" href="user?op=mypage&id=${id}">마이페이지</a>
+					<a class="btn btn-small top_btn" href="login?op=logout">로그아웃</a> 
+					<a	class="btn btn-small top_btn" href="user?op=mypage&id=${id}">마이페이지</a>
 				</p>
 			</c:if>
 			<c:if test="${fid != null }">

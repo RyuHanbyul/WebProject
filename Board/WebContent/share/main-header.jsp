@@ -20,20 +20,22 @@
 			지역 <b	class="caret"></b>
 		</a>
 			<ul class="dropdown-menu">
+				<li data-filter-camera-type="total"><a onclick="category(total)" data-toggle="tab"
+					href="#1">전국</a></li>
 				<li data-filter-camera-type="seoul"><a onclick="category(seoul)" data-toggle="tab"
-					href="#1">서울</a></li>
+					href="#2">서울</a></li>
 				<li data-filter-camera-type="kyongki"><a onclick="category(kyongki)" data-toggle="tab"
-					href="#2">경기도</a></li>
+					href="#3">경기도</a></li>
 				<li data-filter-camera-type="kangwon"><a onclick="category(kangwon)" data-toggle="tab"
-					href="#3">강원도</a></li>
+					href="#4">강원도</a></li>
 				<li data-filter-camera-type="choongchung"><a onclick="category(choongchung)" data-toggle="tab"
-					href="#4">충청도</a></li>
+					href="#5">충청도</a></li>
 				<li data-filter-camera-type="junla"><a onclick="category(junla)"data-toggle="tab"
-					href="#5">전라도</a></li>
+					href="#6">전라도</a></li>
 				<li data-filter-camera-type="kyongsang"><a onclick="category(kyongsang)"data-toggle="tab"
-					href="#6">경상도</a></li>
+					href="#7">경상도</a></li>
 				<li data-filter-camera-type="jeju"><a onclick="category(jeju)"data-toggle="tab"
-					href="#7">제주도</a></li>
+					href="#8">제주도</a></li>
 			</ul></li>
 	</ul>
 </div>
@@ -45,9 +47,9 @@
 		</a>
 			<ul class="dropdown-menu">
 				<li data-filter-camera-type="seoul"><a data-toggle="tab"
-					href="#">신규글</a></li>
+					href="#" onclick="category(total)">신규글</a></li>
 				<li data-filter-camera-type="kyongki"><a data-toggle="tab"
-					href="#">인기글</a></li>
+					href="#" onclick="category(pin)">인기글</a></li>
 			</ul></li>
 	</ul>
 </div>

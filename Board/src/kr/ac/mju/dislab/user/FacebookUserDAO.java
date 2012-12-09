@@ -59,7 +59,7 @@ public class FacebookUserDAO {
 				i++;
 				result.getList().add(new FacebookUser(rs.getInt("fid"),
 						rs.getString("fb_id"),
-						rs.getString("userid"),
+						rs.getString("f_userid"),
 						rs.getString("pwd"),
 						rs.getString("photo_url")
 						));
@@ -96,7 +96,7 @@ public class FacebookUserDAO {
 			if (rs.next()) {
 				fbuser = new FacebookUser(rs.getInt("fid"),
 						rs.getString("fb_id"),
-						rs.getString("userid"),
+						rs.getString("f_userid"),
 						rs.getString("pwd"),
 						rs.getString("photo_url"));
 			}	
@@ -134,7 +134,7 @@ public class FacebookUserDAO {
 				if(rs.next()) {
 					userinfo = new FacebookUser(rs.getInt("fid"),
 							rs.getString("fb_id"),
-							rs.getString("userid"),
+							rs.getString("f_userid"),
 							rs.getString("pwd"),
 							rs.getString("photo_url"));
 				}
@@ -164,7 +164,7 @@ public class FacebookUserDAO {
 		try {
 			// 질의 준비
 		
-				stmt = conn.prepareStatement("SELECT * FROM fbusers WHERE userid = ?");
+				stmt = conn.prepareStatement("SELECT * FROM fbusers WHERE f_userid = ?");
 				stmt.setString(1, userid);
 				
 				// 수행
@@ -173,7 +173,7 @@ public class FacebookUserDAO {
 				if(rs.next()) {
 					userinfo = new FacebookUser(rs.getInt("fid"),
 							rs.getString("fb_id"),
-							rs.getString("userid"),
+							rs.getString("f_userid"),
 							rs.getString("pwd"),
 							rs.getString("photo_url"));
 				}
@@ -211,7 +211,7 @@ public class FacebookUserDAO {
 				
 				if(rs.next()) {
 					userinfo = new FacebookUser(
-							rs.getString("userid"));
+							rs.getString("f_userid"));
 				}
 				
 		} finally {
@@ -237,7 +237,7 @@ public class FacebookUserDAO {
 
 			// 질의 준비
 			stmt = conn.prepareStatement(
-					"INSERT INTO fbusers(fid, fb_id, userid, pwd, photo_url) " +
+					"INSERT INTO fbusers(fid, fb_id, f_userid, pwd, photo_url) " +
 					"VALUES(?, ?, ?, ?, ?)"
 					);
 			stmt.setInt(1,  fbuser.getId());

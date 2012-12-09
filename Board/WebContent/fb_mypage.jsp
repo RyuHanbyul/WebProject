@@ -60,19 +60,15 @@
 							</div>
 						</c:forEach>
 					</ul>
-
-
 				</div>
 			</div>
-			<div class="mypage tab-pane fade in active" id="myPin" style="margin-top: 30px">
+			<div class="mypage tab-pane fade in active" id="myPin"
+				style="margin-top: 30px">
 				<div class="row-fluid">
-
-							<c:if test="${fbid != null}">
-								<a href="board?op=mypin&fbid=${fbid}" class="btn btn-mini">Show
-									MyPin</a>
-							</c:if>
+					<a href="board?op=mypin&id=${fbid}" class="btn btn-mini">ShowMyPin</a>
 				</div>
 			</div>
+			
 			<div class="mypage tab-pane fade in active" id="editProfile"style="margin-top: 30px">
 				<form class="form-horizontal" action="FBAuthServlet" method="GET">
 			<input type="hidden" name="Fbid" value="${me.id}">
@@ -101,8 +97,7 @@
 					<c:if test="${fbid!=null }">
 						<div class="control-group">
 							<div class="controls signupInput">
-								<input type="text" placeholder="User ID" disabled="disabled"
-									name="userid" value="${fbuser.userid}">
+								<input type="text" placeholder="User ID" disabled="disabled" value="${fbuser.userid}">
 							</div>
 						</div>
 					</c:if>

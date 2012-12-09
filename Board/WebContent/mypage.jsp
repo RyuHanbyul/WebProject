@@ -69,6 +69,7 @@
 					<a href="board?op=mypin&id=${id}" class="btn btn-mini">ShowMyPin</a>
 				</div>
 			</div>
+
 			<div class="mypage tab-pane fade in active" id="editProfile"
 				style="margin-top: 30px">
 				<form class="form-horizontal" action="user" method="POST"
@@ -174,9 +175,9 @@
 			$(this).tab('show');
 		});
 		function myPage(name) {
-			$('.mypage').hide();
-			$(name).show();
-		}
+				$('.mypage').hide();
+				$(name).show();
+		};
 	</script>
 </body>
 </html>

@@ -58,12 +58,13 @@ public class BoardDAO {
 
 			while(rs.next()) {
 				result.getList().add(new Substance(rs.getInt("sid"),
-						rs.getString("user_id"),
+						rs.getString("s_userid"),
 						rs.getString("category"),
 						rs.getString("subject"),
 						rs.getString("content"),
 						rs.getString("spot"),
 						rs.getString("image"),
+						rs.getInt("pin_count"),
 						rs.getString("created_at")
 						));
 			}
@@ -98,12 +99,13 @@ public class BoardDAO {
 
 			if (rs.next()) {
 				substance = new Substance(rs.getInt("sid"),
-						rs.getString("user_id"),
+						rs.getString("s_userid"),
 						rs.getString("category"),
 						rs.getString("subject"),
 						rs.getString("content"),
 						rs.getString("spot"),
 						rs.getString("image"),
+						rs.getInt("pin_count"),
 						rs.getString("created_at"));
 			}		
 		} finally {
@@ -129,7 +131,7 @@ public class BoardDAO {
 
 			// 질의 준비
 			stmt = conn.prepareStatement(
-					"INSERT INTO boards(user_id, category, subject, content, spot, image) " +
+					"INSERT INTO boards(s_userid, category, subject, content, spot, image) " +
 							"VALUES(?, ?,?,?,?,?)"
 					);
 			stmt.setString(1,  substance.getUser_id());
@@ -231,7 +233,11 @@ public class BoardDAO {
 			conn = ds.getConnection();
 
 			// 질의 준비
-			stmt = conn.prepareStatement("SELECT * FROM boards left join users on boards.user_id = users.userid left join fbusers on boards.user_id = fbusers.userid ORDER BY boards.created_at DESC;");
+			stmt = conn.prepareStatement("SELECT * FROM boards " +
+					"left join users on boards.s_userid = users.u_userid " +
+					"left join fbusers on boards.s_userid = fbusers.f_userid " +
+					"ORDER BY boards.created_at DESC;");
+
 			// 수행
 			rs = stmt.executeQuery();
 
@@ -240,23 +246,177 @@ public class BoardDAO {
 				boardAndUser = new BoardAndUser(
 						new Substance(
 								rs.getInt("sid"), 
-								rs.getString("user_id"),
+								rs.getString("s_userid"),
 								rs.getString("category"), 
 								rs.getString("subject"), 
 								rs.getString("content"),
 								rs.getString("spot"), 
 								rs.getString("image"), 
+								rs.getInt("pin_count"),
 								rs.getString("created_at")),
 								new User(
 										rs.getInt("uid"),
 										rs.getString("email"),
-										rs.getString("userid"),
+										rs.getString("u_userid"),
 										rs.getString("pwd"),
 										rs.getString("photoUrl")),
 										new FacebookUser(
 												rs.getInt("fid"),
 												rs.getString("fb_id"),
-												rs.getString("userid"),
+												rs.getString("f_userid"),
+												rs.getString("pwd"),
+												rs.getString("photo_url"))
+						);
+				boardAndUsers.add(boardAndUser);
+			}		
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+		return boardAndUsers;
+	}
+	
+	public static ArrayList<BoardAndUser> joinboardandpin() throws NamingException, SQLException{
+		BoardAndUser boardAndUser = null;
+
+		ArrayList<BoardAndUser> boardAndUsers = new ArrayList<BoardAndUser>();
+
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+
+		DataSource ds = getDataSource();
+
+		try {
+			conn = ds.getConnection();
+
+			// 질의 준비
+			stmt = conn.prepareStatement("SELECT * FROM pin " +
+					"left join boards on pin.post_id = boards.sid " +
+					"left join users on pin.user_id = users.uid " +
+					"left join fbusers on pin.user_id = fbusers.fb_id " +
+					"ORDER BY boards.created_at DESC;");
+
+			// 수행
+			rs = stmt.executeQuery();
+
+			while(rs.next()) {
+
+				boardAndUser = new BoardAndUser(
+						new Substance(
+								rs.getInt("sid"), 
+								rs.getString("s_userid"),
+								rs.getString("category"), 
+								rs.getString("subject"), 
+								rs.getString("content"),
+								rs.getString("spot"), 
+								rs.getString("image"), 
+								rs.getInt("pin_count"),
+								rs.getString("created_at")),
+								new User(
+										rs.getInt("uid"),
+										rs.getString("email"),
+										rs.getString("u_userid"),
+										rs.getString("pwd"),
+										rs.getString("photoUrl")),
+										new FacebookUser(
+												rs.getInt("fid"),
+												rs.getString("fb_id"),
+												rs.getString("f_userid"),
+												rs.getString("pwd"),
+												rs.getString("photo_url")),
+												new Repin(
+														rs.getString("user_id"),
+														rs.getString("post_id"))
+						);
+				boardAndUsers.add(boardAndUser);
+			}		
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+		return boardAndUsers;
+	}
+	
+	public static boolean pincount(int pin_postid) throws NamingException, SQLException{
+		int result;
+
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		DataSource ds = getDataSource();
+
+		try {
+			conn = ds.getConnection();
+
+			// 질의 준비
+			stmt = conn.prepareStatement("UPDATE boards SET pin_count = pin_count+1 WHERE sid = ?");
+			stmt.setInt(1, pin_postid);
+
+			result = stmt.executeUpdate();
+			
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+
+		return (result == 1);
+	}
+	public static ArrayList<BoardAndUser> pincountarray() throws NamingException, SQLException{
+		BoardAndUser boardAndUser = null;
+
+		ArrayList<BoardAndUser> boardAndUsers = new ArrayList<BoardAndUser>();
+
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+
+		DataSource ds = getDataSource();
+
+		try {
+			conn = ds.getConnection();
+
+			// 질의 준비
+			stmt = conn.prepareStatement("SELECT * FROM boards " +
+					"left join users on boards.s_userid = users.u_userid " +
+					"left join fbusers on boards.s_userid = fbusers.f_userid " +
+					"ORDER BY boards.pin_count DESC;");
+
+			// 수행
+			rs = stmt.executeQuery();
+
+			while(rs.next()) {
+
+				boardAndUser = new BoardAndUser(
+						new Substance(
+								rs.getInt("sid"), 
+								rs.getString("s_userid"),
+								rs.getString("category"), 
+								rs.getString("subject"), 
+								rs.getString("content"),
+								rs.getString("spot"), 
+								rs.getString("image"), 
+								rs.getInt("pin_count"),
+								rs.getString("created_at")),
+								new User(
+										rs.getInt("uid"),
+										rs.getString("email"),
+										rs.getString("u_userid"),
+										rs.getString("pwd"),
+										rs.getString("photoUrl")),
+										new FacebookUser(
+												rs.getInt("fid"),
+												rs.getString("fb_id"),
+												rs.getString("f_userid"),
 												rs.getString("pwd"),
 												rs.getString("photo_url"))
 						);

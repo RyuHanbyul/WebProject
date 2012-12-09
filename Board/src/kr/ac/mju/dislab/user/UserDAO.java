@@ -59,7 +59,7 @@ public class UserDAO {
 				i++;
 				result.getList().add(new User(rs.getInt("uid"),
 						rs.getString("email"),
-						rs.getString("userid"),
+						rs.getString("u_userid"),
 						rs.getString("pwd"),
 						rs.getString("photoUrl")
 						));
@@ -96,7 +96,7 @@ public class UserDAO {
 			if (rs.next()) {
 				user = new User(rs.getInt("uid"),
 						rs.getString("email"),
-						rs.getString("userid"),
+						rs.getString("u_userid"),
 						rs.getString("pwd"),
 						rs.getString("photoUrl"));
 			}	
@@ -135,7 +135,7 @@ public class UserDAO {
 				if(rs.next()) {
 					userinfo = new User(rs.getInt("uid"),
 							rs.getString("email"),
-							rs.getString("userid"),
+							rs.getString("u_userid"),
 							rs.getString("pwd"),
 							rs.getString("photoUrl"));
 				}
@@ -166,7 +166,7 @@ public class UserDAO {
 			conn = ds.getConnection();
 			// 질의 준비
 		
-				stmt = conn.prepareStatement("SELECT userid FROM users WHERE uid = ?");
+				stmt = conn.prepareStatement("SELECT u_userid FROM users WHERE uid = ?");
 				stmt.setInt(1, id);
 				
 				// 수행
@@ -174,7 +174,7 @@ public class UserDAO {
 				
 				if(rs.next()) {
 					userinfo = new User(
-							rs.getString("userid"));
+							rs.getString("u_userid"));
 				}
 				
 		} finally {
@@ -200,7 +200,7 @@ public class UserDAO {
 
 			// 질의 준비
 			stmt = conn.prepareStatement(
-					"INSERT INTO users(uid, email, userid, pwd, photoUrl) " +
+					"INSERT INTO users(uid, email, u_userid, pwd, photoUrl) " +
 					"VALUES(?, ?, ?, ?, ?)"
 					);
 			stmt.setInt(1,  user.getId());

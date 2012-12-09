@@ -117,7 +117,7 @@ public class RepinDAO {
 			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
 			if (conn != null) try{conn.close();} catch(SQLException e) {}
 		}
-		System.out.println("repin.getPost_id() :"+repin.getPost_id());
+
 		return repin;
 	}
 	
@@ -153,5 +153,59 @@ public class RepinDAO {
 		}
 
 		return repin;
+	}
+	public static boolean removeuserpin(int user_id, int post_id) throws NamingException, SQLException {
+		int result;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		DataSource ds = getDataSource();
+
+		try {
+			conn = ds.getConnection();
+
+			// 질의 준비
+			stmt = conn.prepareStatement("DELETE FROM pin WHERE user_id=?, post_id =?");
+			stmt.setInt(1,  user_id);
+			stmt.setInt(2, post_id);
+
+			// 수행
+			result = stmt.executeUpdate();
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+
+		return (result == 1);		
+	}
+	public static boolean removefbuserpin(String user_id, int post_id) throws NamingException, SQLException {
+		int result;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		DataSource ds = getDataSource();
+
+		try {
+			conn = ds.getConnection();
+
+			// 질의 준비
+			stmt = conn.prepareStatement("DELETE FROM pin WHERE user_id=?, post_id =?");
+			stmt.setString(1,  user_id);
+			stmt.setInt(2, post_id);
+
+			// 수행
+			result = stmt.executeUpdate();
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+
+		return (result == 1);		
 	}
 }

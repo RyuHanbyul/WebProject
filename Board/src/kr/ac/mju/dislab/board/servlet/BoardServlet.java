@@ -79,6 +79,9 @@ public class BoardServlet extends HttpServlet {
 				ArrayList<BoardAndUser> baus = BoardDAO.joinboardandusers();
 				request.setAttribute("baus", baus);
 				
+				ArrayList<BoardAndUser> pins = BoardDAO.pincountarray();
+				request.setAttribute("pins", pins);
+				
 				actionUrl = "main.jsp";
 			} else if(op.equals("index2")){
 				int page = getIntFromParameter(request.getParameter("page"), 1);
@@ -94,6 +97,9 @@ public class BoardServlet extends HttpServlet {
 			}else if (op.equals("show")) {
 				Substance substance = BoardDAO.findById(id);
 				request.setAttribute("substance", substance);
+				
+				ArrayList<BoardAndUser> pins = BoardDAO.joinboardandpin();
+				request.setAttribute("pins", pins);
 				
 				HttpSession session = request.getSession(false);
 				if(session.getAttribute("id") != null) { 		
@@ -122,50 +128,81 @@ public class BoardServlet extends HttpServlet {
 				int post_id = substance.getId();
 				System.out.println("post_id :"+post_id);
 				
+				ArrayList<BoardAndUser> pins = BoardDAO.joinboardandpin();
+				request.setAttribute("pins", pins);
+				
 				HttpSession session = request.getSession(false);
 				if(session.getAttribute("id") != null) { 		
 					int user_id = (int) session.getAttribute("id");
 					System.out.println("user_id: " + user_id);
 					
 					RepinDAO.userrepin(user_id, post_id);
+					BoardDAO.pincount(post_id);
 					
-					actionUrl = "success.jsp";
+					actionUrl = "board_show.jsp";
 				}else if(session.getAttribute("fbid") != null) {
 					String user_id = (String) session.getAttribute("fbid");
 					System.out.println("user_id: " + user_id);
 					
 					RepinDAO.fbuserrepin(user_id, post_id);
-					actionUrl = "success.jsp";
+					BoardDAO.pincount(post_id);
+					
+					actionUrl = "board_show.jsp";
 				}else {
-					actionUrl = "error.jsp";
+					actionUrl = "board_show.jsp";
 				}
-			}else if (op.equals("mypin")) {
+			}else if(op.equals("repindelete")) {
 				Substance substance = BoardDAO.findById(id);
 				request.setAttribute("substance", substance);
-				
-				ArrayList<BoardAndUser> baus = BoardDAO.joinboardandusers();
-				request.setAttribute("baus", baus);
+				int post_id = substance.getId();
 				
 				HttpSession session = request.getSession(false);
-				
 				if(session.getAttribute("id") != null) { 		
 					int user_id = (int) session.getAttribute("id");
 					System.out.println("user_id: " + user_id);
 					
-					Repin repin = RepinDAO.findByUserId(user_id);
-					request.setAttribute("repin", repin);
+					RepinDAO.removeuserpin(user_id, post_id);
 					
-					actionUrl = "Mypin.jsp";
+					actionUrl = "board_show.jsp";
 				}else if(session.getAttribute("fbid") != null) {
 					String user_id = (String) session.getAttribute("fbid");
 					System.out.println("user_id: " + user_id);
 					
-					Repin repin = RepinDAO.findByUserFbId(user_id);
-					request.setAttribute("repin", repin);
-					actionUrl = "Mypin.jsp";
+					RepinDAO.removefbuserpin(user_id, post_id);
+					
+					actionUrl = "board_show.jsp";
 				}else {
-					actionUrl = "error.jsp";
+					actionUrl = "board_show.jsp";
 				}
+			
+				actionUrl="board_show.jsp";
+			}else if (op.equals("mypin")) {
+					Substance substance = BoardDAO.findById(id);
+					request.setAttribute("substance", substance);
+					
+					ArrayList<BoardAndUser> pins = BoardDAO.joinboardandpin();
+					request.setAttribute("pins", pins);
+					
+					HttpSession session = request.getSession(false);
+					
+					if(session.getAttribute("id") != null) { 		
+						int user_id = (int) session.getAttribute("id");
+						System.out.println("user_id: " + user_id);
+						
+						Repin repin = RepinDAO.findByUserId(user_id);
+						request.setAttribute("repin", repin);
+						
+						actionUrl = "Mypin.jsp";
+					}else if(session.getAttribute("fbid") != null) {
+						String user_id = (String) session.getAttribute("fbid");
+						System.out.println("user_id: " + user_id);
+						
+						Repin repin = RepinDAO.findByUserFbId(user_id);
+						request.setAttribute("repin", repin);
+						actionUrl = "Mypin.jsp";
+					}else {
+						actionUrl = "error.jsp";
+					}
 			}else if (op.equals("update")) {
 				Substance substance = BoardDAO.findById(id);
 				request.setAttribute("substance", substance);

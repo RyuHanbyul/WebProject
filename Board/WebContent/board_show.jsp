@@ -44,7 +44,25 @@
 				</div>
 				<div style="float: right; padding: 10px 0;">
 				<a href="board?op=repin&id=${substance.id}"
-						class="btn btn-smail">Repin</a>
+									class="btn btn-smail">Repin</a>
+		<!--
+					<c:forEach var="pin" items="${pins}">
+						<c:if test="${pin.getRepin().getUser_id() == id || pin.getRepin().getUser_id() == fbid}">
+							<c:if test="${pin.getRepin().getPost_id() == pin.getSubstance().getId() }">
+								<a href="board?op=delete&id=${substance.id}"
+									class="btn btn-smail">Delete Repin</a>
+							</c:if>
+						</c:if>
+						
+						<c:if test="${pin.getRepin().getUser_id() != id && pin.getRepin().getUser_id() != fbid}">
+							<c:if test="${pin.getRepin().getPost_id() != pin.getSubstance().getId() }">
+						
+								<a href="board?op=repin&id=${substance.id}"
+									class="btn btn-smail">Repin</a>
+							</c:if>
+						</c:if>
+					</c:forEach>
+						-->
 				</div>
 			</div>
 
@@ -131,10 +149,10 @@
 			}
 		}
 		//repin 부분
-		$("#repin-btn").click(function(){
+		$("#repin-btn").click(function() {
 			alert("repin이 클릭이 되었습니다.");
 			$(function() {
-				if(confirm("정말로 Pin?")) {
+				if (confirm("정말로 Pin?")) {
 					location = 'board?op=repin';
 				}
 				return false;

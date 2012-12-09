@@ -9,35 +9,36 @@ use datecourse;
 CREATE TABLE users (
 uid int AUTO_INCREMENT PRIMARY KEY, 
 email VARCHAR(100) UNIQUE, 
-userid VARCHAR(100) NOT NULL,
+u_userid VARCHAR(100) NOT NULL,
 pwd VARCHAR(255) NOT NULL,
 photoUrl VARCHAR(255), 
 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
-INSERT INTO users (uid, email, userid, pwd, photoUrl) VALUES (1, 'dongseop1@gmail.com', 'ds1', '12345', 'NULL');
-INSERT INTO users (uid, email, userid, pwd, photoUrl) VALUES (2, 'dongseop2@gmail.com', 'ds2', '12345', 'NULL');
-INSERT INTO users (uid, email, userid, pwd, photoUrl) VALUES (3, 'dongseop3@gmail.com', 'ds3', '12345', 'NULL');
+INSERT INTO users (uid, email, u_userid, pwd, photoUrl) VALUES (1, 'dongseop1@gmail.com', 'ds1', '12345', 'firstid.jpg');
+INSERT INTO users (uid, email, u_userid, pwd, photoUrl) VALUES (2, 'dongseop2@gmail.com', 'ds2', '12345', 'firstid.jpg');
+INSERT INTO users (uid, email, u_userid, pwd, photoUrl) VALUES (3, 'dongseop3@gmail.com', 'ds3', '12345', 'firstid.jpg');
 
 CREATE TABLE fbusers (
 fid int AUTO_INCREMENT PRIMARY KEY, 
 fb_id VARCHAR(100) UNIQUE, 
-userid VARCHAR(100) NOT NULL,
+f_userid VARCHAR(100) NOT NULL,
 pwd VARCHAR(255) NOT NULL,
 photo_url VARCHAR(255), 
 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
-INSERT INTO fbusers (fid, fb_id, userid, pwd, photo_url) VALUES (1, '1', 'dongseop3', '12345', 'NULL');
-INSERT INTO fbusers (fid, fb_id, userid, pwd, photo_url) VALUES (2, '2', 'dongseop4', '12345', 'NULL');
-INSERT INTO fbusers (fid, fb_id, userid, pwd, photo_url) VALUES (3, '3', 'dongseop5', '12345', 'NULL');
+INSERT INTO fbusers (fid, fb_id, f_userid, pwd, photo_url) VALUES (1, '1', 'dongseop3', '12345', 'firstid.jpg');
+INSERT INTO fbusers (fid, fb_id, f_userid, pwd, photo_url) VALUES (2, '2', 'dongseop4', '12345', 'firstid.jpg');
+INSERT INTO fbusers (fid, fb_id, f_userid, pwd, photo_url) VALUES (3, '3', 'dongseop5', '12345', 'firstid.jpg');
 
 CREATE TABLE boards (
 	sid INT AUTO_INCREMENT PRIMARY KEY,
-	user_id VARCHAR(100) NOT NULL,
+	s_userid VARCHAR(100) NOT NULL,
 	category VARCHAR(100),
 	subject VARCHAR(100) NOT NULL,
 	content TEXT NOT NULL,
 	spot VARCHAR(5000),
 	image VARCHAR(8000),
+	pin_count INT DEFAULT 0,
 	`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -18,6 +18,9 @@ import org.apache.catalina.Session;
 
 import kr.ac.mju.dislab.board.BoardAndUser;
 import kr.ac.mju.dislab.board.BoardDAO;
+import kr.ac.mju.dislab.board.Repin;
+import kr.ac.mju.dislab.board.RepinDAO;
+import kr.ac.mju.dislab.board.Substance;
 import kr.ac.mju.dislab.user.*;
 
 import org.apache.commons.lang3.StringUtils;
@@ -91,14 +94,23 @@ public class UserServlet extends HttpServlet {
 				actionUrl = "user_show.jsp";
 			} else if (op.equals("mypage")) {
 				HttpSession session = request.getSession(false);
-				if (session != null)
+				if (session != null){
 					session.getAttribute("id");
+					int user_id=(int)session.getAttribute("id");
+					User user = UserDAO.findById(user_id);
+					request.setAttribute("user", user);
+					Repin repin = RepinDAO.findByUserId(user_id);
+					request.setAttribute("repin", repin);
+				}
 				ArrayList<BoardAndUser> baus = BoardDAO.joinboardandusers();
 				request.setAttribute("baus", baus);
-				User user = UserDAO.findById(id);
-				request.setAttribute("user", user);
 				request.setAttribute("method", "PUT");
-
+				
+				Substance substance = BoardDAO.findById(id);
+				request.setAttribute("substance", substance);
+				ArrayList<BoardAndUser> pins = BoardDAO.joinboardandpin();
+				request.setAttribute("pins", pins);
+				
 				actionUrl = "mypage.jsp";
 			} else if (op.equals("admin")) {
 				HttpSession session = request.getSession(false);
