@@ -68,7 +68,7 @@
 						</div>
 					</div>
 					<c:if test="${method == 'POST'}">
-						<div class="control-group ">
+						<div class="control-group">
 							<div class="controls signupInput">
 								<input type="image" name="photoUrl"
 									src="https://graph.facebook.com/${me.id}/picture?type=large"

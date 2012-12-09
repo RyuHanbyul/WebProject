@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.ac.mju.dislab.board.BoardAndUser;
+import kr.ac.mju.dislab.board.BoardDAO;
+import kr.ac.mju.dislab.board.Repin;
+import kr.ac.mju.dislab.board.RepinDAO;
+import kr.ac.mju.dislab.board.Substance;
 import kr.ac.mju.dislab.user.*;
 
 /**
@@ -72,18 +77,7 @@ public class FacebookUserServlet extends HttpServlet {
 				request.setAttribute("fbusers", fbusers);
 				request.setAttribute("page", page);
 				actionUrl = "fb_index.jsp";
-			} else if (op.equals("show")) {
-				FacebookUser fbuser = FacebookUserDAO.findById(id);
-				request.setAttribute("fbuser", fbuser);
-
-				actionUrl = "show.jsp";
-			} else if (op.equals("mypage")) {
-				HttpSession session = request.getSession(false);
-				if (session != null)
-					session.getAttribute("fbid");
-
-				actionUrl = "mypage.jsp";
-			} else if (op.equals("update")) {
+			}else if (op.equals("update")) {
 				HttpSession session = request.getSession(false);
 				if (session != null) {
 					String fbid = (String) session.getAttribute("fbid");
@@ -92,6 +86,35 @@ public class FacebookUserServlet extends HttpServlet {
 				}
 				request.setAttribute("method", "PUT");
 				actionUrl = "fb_signup.jsp";
+			} else if (op.equals("mypage")) {
+				HttpSession session = request.getSession(false);
+				if (session != null){
+					session.getAttribute("fbid");
+					String user_id = (String) session.getAttribute("fbid");
+					FacebookUser fbuser = FacebookUserDAO.findByFbId(user_id);
+					request.setAttribute("fbuser", fbuser);
+					Repin repin = RepinDAO.findByUserFbId(user_id);
+					request.setAttribute("repin", repin);
+				}
+				ArrayList<BoardAndUser> baus = BoardDAO.joinboardandusers();
+				request.setAttribute("baus", baus);
+				
+				request.setAttribute("method", "PUT");
+				Substance substance = BoardDAO.findById(id);
+				request.setAttribute("substance", substance);
+				ArrayList<BoardAndUser> pins = BoardDAO.joinboardandpin();
+				request.setAttribute("pins", pins);
+				
+				actionUrl = "fb_mypage.jsp";
+			} else if (op.equals("signup")) {
+				request.setAttribute("method", "POST");
+				request.setAttribute("fbuser", new FacebookUser());
+				actionUrl = "fb_signup.jsp";
+			} else if (op.equals("show")) {
+				FacebookUser fbuser = FacebookUserDAO.findById(id);
+				request.setAttribute("fbuser", fbuser);
+
+				actionUrl = "show.jsp";
 			} else if (op.equals("delete")) {
 				ret = FacebookUserDAO.remove(id);
 				request.setAttribute("result", ret);
@@ -104,11 +127,7 @@ public class FacebookUserServlet extends HttpServlet {
 					actionUrl = "error.jsp";
 				}
 
-			} else if (op.equals("signup")) {
-				request.setAttribute("method", "POST");
-				request.setAttribute("fbuser", new FacebookUser());
-				actionUrl = "fb_signup.jsp";
-			} else {
+			}  else {
 				request.setAttribute("error", "알 수 없는 명령입니다");
 				actionUrl = "error.jsp";
 			}
@@ -189,8 +208,8 @@ public class FacebookUserServlet extends HttpServlet {
 
 		try {
 			URL url = new URL(photoUrl);
-			String encodedurl = URLEncoder.encode(url.toString(), "UTF-8");
-			fbuser.setPhotoUrl(encodedurl);
+	//		String encodedurl = URLEncoder.encode(url.toString(), "UTF-8");
+			fbuser.setPhotoUrl(photoUrl);
 		} catch (Exception e) {
 			errorMsgs.add(e.getMessage());
 		}
@@ -219,6 +238,7 @@ public class FacebookUserServlet extends HttpServlet {
 			errorMsgs.add(e.getMessage());
 			actionUrl = "error.jsp";
 		}
+	//	fbuser.setPhotoUrl(photoUrl);
 
 		request.setAttribute("fbid", fbid);
 		request.setAttribute("errorMsgs", errorMsgs);

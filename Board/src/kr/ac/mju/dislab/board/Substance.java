@@ -15,30 +15,40 @@ public class Substance implements java.io.Serializable {
 	private String content;
 	private String spot;
 	private String image;
+	private int pin_count;
 	private String created_at;
 
 	public Substance() {
 	}
 
-	public Substance(int id, String user_id, String category, String subject, String content, String spot,String image, String created_at) {
-		this.id = id;
-		this.user_id = user_id;
+	public Substance(int sid, String s_userid, String category, String subject, String content, String spot,String image, int pin_count, String created_at) {
+		this.id = sid;
+		this.user_id = s_userid;
 		this.category = category;
 		this.subject = subject;
 		this.content = content;
 		this.spot = spot;
 		this.image = image;
+		this.pin_count = pin_count;
 		this.created_at = created_at;
 	}
-	public void setId(int id){
-		this.id = id;
+	
+	public void setPinCount(int pin_count){
+		this.pin_count = pin_count;
+	}
+	public int getPinCount(){
+		return pin_count;
+	}
+
+	public void setId(int sid){
+		this.id = sid;
 	}
 	public int getId(){
 		return id;
 	}
 
-	public void setUser_id(String user_id){
-		this.user_id = user_id;
+	public void setUser_id(String s_userid){
+		this.user_id = s_userid;
 	}
 	public String getUser_id(){
 		return user_id;
@@ -89,5 +99,8 @@ public class Substance implements java.io.Serializable {
 	}
 	public String getImage(){
 		return image;
+	}
+	public void addImage(String image){
+		this.content+=image;
 	}
 }

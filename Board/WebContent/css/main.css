@@ -38,14 +38,12 @@ a:hover, a:active{color: #C23700;}
 	height:100%;
 	float:left;
 	text-align: center;
-	background-color:#FCE6E6
 }
 #top-left{
 	width:60%;
 	height:100%;
 	top:10px;
 	float:left;
-	background-color:#FCE6E6
 }
 #top-center div{
 	margin-top: 20px;
@@ -68,13 +66,12 @@ a:hover, a:active{color: #C23700;}
 }
 
 #footer{
-	width: 80%;
+	width: 70%;
 	height: 20px;
 	padding-top: 10px;
-	padding-bottom: 20px;
 	text-align: center;
 	margin: 0 auto;	
-	background-color:#FCE6E6
+	background: white;
 }
 #footer a{
 	padding: 0 12px;
@@ -84,5 +81,4 @@ a:hover, a:active{color: #C23700;}
 	width:80%;
 	height:25%;
 	margin-right:5px;
-	background-color:#FCE6E6;
 }

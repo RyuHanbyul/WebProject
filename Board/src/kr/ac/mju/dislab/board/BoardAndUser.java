@@ -3,6 +3,7 @@ package kr.ac.mju.dislab.board;
 import java.io.Serializable;
 
 import kr.ac.mju.dislab.user.User;
+import kr.ac.mju.dislab.user.FacebookUser;
 
 public class BoardAndUser implements Serializable {
 	private static final long serialVersionUID = -7504970190083622353L;
@@ -10,11 +11,20 @@ public class BoardAndUser implements Serializable {
 
 	private Substance substance;
 	private User user;
+	private FacebookUser fbuser;
+	private Repin repin;
 	
 	
-	public BoardAndUser(Substance substance, User user){
+	public BoardAndUser(Substance substance, User user, FacebookUser fbuser){
 		this.substance = substance;
 		this.user = user;
+		this.fbuser = fbuser;
+	}
+	public BoardAndUser(Substance substance, User user, FacebookUser fbuser, Repin repin){
+		this.substance = substance;
+		this.user = user;
+		this.fbuser = fbuser;
+		this.repin = repin;
 	}
 
 
@@ -35,6 +45,24 @@ public class BoardAndUser implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public FacebookUser getFbUser() {
+		return fbuser;
+	}
+
+
+	public void setFbUser(FacebookUser fbuser) {
+		this.fbuser = fbuser;
+	}
+	
+	public Repin getRepin() {
+		return repin;
+	}
+
+
+	public void setRepin(Repin repin) {
+		this.repin = repin;
 	}
 
 }

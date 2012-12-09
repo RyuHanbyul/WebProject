@@ -20,14 +20,14 @@
 		<div class="control-group">
 			<!-- 로그인 error msg -->
 			<c:if test="${msg != null || msg.size() > 0}">
-				<div class="alert alert-error">${msg}</div>
+				<div class="alert alert-success">${msg}</div>
 			</c:if>
 		</div>
 		<div class="control-group">
 			<c:choose>
 				<c:when test="${fbid != null}">
 					<div class="control-group">
-						<a href="login?fbop=logout" class="btn btn-mini btn-danger">로그아웃</a>
+						<a href="login?op=logout" class="btn btn-mini btn-danger">로그아웃</a>
 					</div>
 				</c:when>
 				<c:otherwise>

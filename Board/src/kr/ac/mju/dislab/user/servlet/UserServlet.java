@@ -16,6 +16,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.Session;
 
+import kr.ac.mju.dislab.board.BoardAndUser;
+import kr.ac.mju.dislab.board.BoardDAO;
+import kr.ac.mju.dislab.board.Repin;
+import kr.ac.mju.dislab.board.RepinDAO;
+import kr.ac.mju.dislab.board.Substance;
 import kr.ac.mju.dislab.user.*;
 
 import org.apache.commons.lang3.StringUtils;
@@ -82,27 +87,27 @@ public class UserServlet extends HttpServlet {
 				request.setAttribute("users", users);
 				request.setAttribute("page", page);
 				actionUrl = "user_index.jsp";
-			} else if (op.equals("show")) {
-				User user = UserDAO.findById(id);
-				request.setAttribute("user", user);
+			}else if (op.equals("update")) {
+				HttpSession session = request.getSession(false);
+				if (session != null)
+					session.getAttribute("id");
 
-				actionUrl = "user_show.jsp";
-			} else if (op.equals("mypage")) {
-				HttpSession session = request.getSession(false);
-				if (session != null)
-					session.getAttribute("id");
-				
-				actionUrl = "mypage.jsp";
-			} else if (op.equals("update")) {
-				HttpSession session = request.getSession(false);
-				if (session != null)
-					session.getAttribute("id");
-				
 				User user = UserDAO.findById(id);
 				request.setAttribute("user", user);
 				request.setAttribute("method", "PUT");
 
 				actionUrl = "user_signup.jsp";
+			}  else if (op.equals("show")) {
+				User user = UserDAO.findById(id);
+				request.setAttribute("user", user);
+
+				actionUrl = "user_show.jsp";
+			} else if (op.equals("admin")) {
+				HttpSession session = request.getSession(false);
+				if (session != null)
+					session.getAttribute("id");
+
+				actionUrl = "admin.jsp";
 			} else if (op.equals("delete")) {
 				ret = UserDAO.remove(id);
 				request.setAttribute("result", ret);
@@ -119,7 +124,27 @@ public class UserServlet extends HttpServlet {
 				request.setAttribute("user", new User());
 				request.setAttribute("method", "POST");
 				actionUrl = "user_signup.jsp";
-			} else {
+			}  else if (op.equals("mypage")) {
+				HttpSession session = request.getSession(false);
+				if (session != null){
+					session.getAttribute("id");
+					int user_id=(int)session.getAttribute("id");
+					User user = UserDAO.findById(user_id);
+					request.setAttribute("user", user);
+					Repin repin = RepinDAO.findByUserId(user_id);
+					request.setAttribute("repin", repin);
+				}
+				ArrayList<BoardAndUser> baus = BoardDAO.joinboardandusers();
+				request.setAttribute("baus", baus);
+				request.setAttribute("method", "PUT");
+				
+				Substance substance = BoardDAO.findById(id);
+				request.setAttribute("substance", substance);
+				ArrayList<BoardAndUser> pins = BoardDAO.joinboardandpin();
+				request.setAttribute("pins", pins);
+				
+				actionUrl = "mypage.jsp";
+			}else {
 				request.setAttribute("error", "알 수 없는 명령입니다");
 				actionUrl = "error.jsp";
 			}
@@ -161,7 +186,6 @@ public class UserServlet extends HttpServlet {
 		multi = new MultipartRequest(request, realFolder, maxSize, encType,
 				new DefaultFileRenamePolicy());
 
-
 		String id = multi.getParameter("id");
 		String email = multi.getParameter("email");
 		String pwd = multi.getParameter("pwd");
@@ -169,58 +193,57 @@ public class UserServlet extends HttpServlet {
 		String userid = multi.getParameter("userid");
 		String photoUrl = multi.getFilesystemName("photoUrl");
 		String method = multi.getParameter("op_method");
-		
+
 		List<String> errorMsgs = new ArrayList<String>();
 
+		// 회원가입 오류 메세지
 
-		// 회원가입 오류 메세지		
+		if (email != "" && userid != "" && pwd != "" && pwd_confirm != "") {
+			if (isRegisterMode(method)) {
 
-		if(email != "" && userid != "" && pwd != "" && pwd_confirm != "") {
-			if(isRegisterMode(method)) {
-				
-				if(email != null && email.trim().length() != 0) {
+				if (email != null && email.trim().length() != 0) {
 					user.setEmail(email);
-				}else {
+				} else {
 					errorMsgs.add("이메일을 입력해 주세요.");
 				}
-			}else {
+				if (userid == null || userid.trim().length() < 4) {
+					errorMsgs.add("ID는 4자 이상으로 입력해주세요.");
+				} else {
+					user.setUserid(userid);
+				}
+			} else {
 				user.setId(getIntFromParameter(id, -1));
 			}
-			if(userid == null || userid.trim().length() < 4 ) {
-				errorMsgs.add("ID는 4자 이상으로 입력해주세요.");
-			}else {
-				user.setUserid(userid);
-			}
+
 			if (pwd == null || pwd.length() < 5) {
 				errorMsgs.add("비밀번호는 5자 이상 입력해주세요.");
 			} else if (!pwd.equals(pwd_confirm)) {
 				errorMsgs.add("비밀번호가 일치하지 않습니다.");
-			}else {
+			} else {
 				user.setPwd(pwd);
 			}
 		}
-		
+
 		user.setEmail(email);
-		
-		if(photoUrl != null){
+
+		if (photoUrl != null) {
 			user.setPhotoUrl(photoUrl);
-		}
-			else{
+		} else {
 			user.setPhotoUrl("firstid.jpg");
 		}
 
 		String msg = "";
-		
+
 		try {
 			if (isRegisterMode(method)) {
 				ret = UserDAO.create(user);
-				msg = "<br>" + userid + "님의 사용자 정보가 등록되었습니다.";
+				msg = "<br>사용자 정보가 등록되었습니다.";
 				request.setAttribute("msg", msg);
 				actionUrl = "success.jsp";
 			} else {
 				ret = UserDAO.update(user);
 				actionUrl = "success.jsp";
-				msg = "<b>" + userid + "님의 사용자 정보가 수정되었습니다.";
+				msg = "<b>사용자 정보가 수정되었습니다.";
 			}
 
 			if (ret != true) {

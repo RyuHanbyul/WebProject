@@ -63,13 +63,13 @@ public class LoginServlet extends HttpServlet {
 			
 			session.invalidate();
 			actionUrl = "logout.jsp";
-		}else if (fbop == null || fbop.equals("index")) {
-
-			actionUrl = "login.jsp";
 		} else if (fbop.equals("logout")) {
 
 			session.invalidate();
 			actionUrl = "logout.jsp";
+		}else if (fbop == null || fbop.equals("index")) {
+
+			actionUrl = "login.jsp";
 		}
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(actionUrl);
@@ -105,7 +105,7 @@ public class LoginServlet extends HttpServlet {
 					if (userinfo.getPwd().equals(pwd)
 							&& userinfo.getEmail().equals(email)) {
 						session.setAttribute("id", userinfo.getId());
-						request.setAttribute("msg", email + "님 방문을 환영합니다!");
+						request.setAttribute("msg", userinfo.getUserid() + "님 방문을 환영합니다!");
 						actionUrl = "login.jsp";
 					} else {
 						request.setAttribute("msg", "pwd 오류!");
@@ -118,11 +118,11 @@ public class LoginServlet extends HttpServlet {
 				e.printStackTrace();
 				actionUrl = "error.jsp";
 			}
-		} else if (email == "" && pwd == "") {
-			request.setAttribute("msg", "email과 pwd를 입력해주세요!");
-			actionUrl = "login.jsp";
-		} else if (pwd == "" ) {
+		}  else if (pwd == "" ) {
 			request.setAttribute("msg", "pwd를 입력해주세요!");
+			actionUrl = "login.jsp";
+		}else if (email == "" && pwd == "") {
+			request.setAttribute("msg", "email과 pwd를 입력해주세요!");
 			actionUrl = "login.jsp";
 		}
 
@@ -141,6 +141,7 @@ public class LoginServlet extends HttpServlet {
 					if (fbuserinfo.getPwd().equals(pwd)
 							&& fbuserinfo.getUserid().equals(userid)) {
 						session.setAttribute("fbid", fbuserinfo.getfbId());
+						session.setAttribute("fid", fbuserinfo.getId());
 						request.setAttribute("msg", userid + "님 방문을 환영합니다!");
 						actionUrl = "fb_login.jsp";
 					} else {
