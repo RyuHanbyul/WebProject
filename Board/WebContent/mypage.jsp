@@ -14,210 +14,57 @@
 			<div id="first-nav" class="navbar navmenu" style="height: 30px;">
 				<div class="navbar-tabs navselect">
 					<ul class="nav nav-tabs" id="myTab">
-						<li class="active"><a data-toggle="tab"
-							onclick="myPage(myWrite)")>내가쓴글</a></li>
-						<li><a data-toggle="tab" onclick="myPage(myPin)">MyPin</a></li>
-						<li><a data-toggle="tab" onclick="myPage(editProfile)">회원정보</a></li>
+						<li class="active"><a href="#myWrite">내가쓴글</a></li>
+						<li><a href="#myPin">MyPin</a></li>
+						<li><a href="#editProfile">회원정보</a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 		<div id="content">
-			<div class="mypage tab-pane fade in active" id="myWrite">
-				<div class="row-fluid">
-					<ul class="thumbnails">
-						<c:forEach var="bau" items="${baus}">
-							<c:if test="${bau.getUser().getId()==id}">
-								<li class="span4"
-									style="width: 29.3%; margin: 2%; text-align: center"><a
-									href="#myWritemyModal${bau.getSubstance().getId()}"
-									class="thumbnail" data-toggle="modal"
-									class="btn btn-primary btn-large"
-									style="width: 450px; height: 336px;"> <c:out
-											value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li>
-							</c:if>
-							<div id="myWritemyModal${bau.getSubstance().getId()}"
-								class="modal hide fade" tabindex="-1" role="dialog"
-								aria-labelledby="myModalLabel" aria-hidden="true"
-								style="display: block;">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal"
-										aria-hidden="true">×</button>
-									<h3 id="myModalLabel"
-										style="text-align: center; font-size: 35px;">
-										<c:out value="${bau.getSubstance().getSubject()}" />
-									</h3>
-								</div>
-								<div class="modal-body">
-									<div style="text-align: center">
-										<a href="board?op=show&id=${bau.getSubstance().getId()}">
-											<c:out value="${bau.getSubstance().getImage()}"
-												escapeXml="false" />
-										</a>
-									</div>
-									<div style="float: right;">
-										<b style="font-size: 15px;"><c:out
-												value="${bau.getSubstance().getUser_id()}" /></b>
-										<c:if test="${bau.getUser().getPhotoUrl() != null }">
-											<img src="./upload/${bau.getUser().getPhotoUrl()}"
-												style="width: 40px; height: 40px;" escapeXml="false">
-										</c:if>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-					</ul>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="myWrite">
+					<div class="row-fluid">
+						<ul class="thumbnails">
+						</ul>
+					</div>
 				</div>
-			</div>
-			<div class="mypage tab-pane fade in active" id="myPin">
-				<div class="row-fluid">
-					<ul class="thumbnails">
-						<c:forEach var="pin" items="${pins}">
-							<c:if test="${pin.getRepin().getUser_id() == id}">
-								<c:if
-									test="${pin.getRepin().getPost_id() == pin.getSubstance().getId() }">
-									<li class="span4"
-										style="width: 29.3%; margin: 2%; text-align: center"><a
-										href="#myPinmyModal${pin.getSubstance().getId()}"
-										class="thumbnail" data-toggle="modal"
-										class="btn btn-primary btn-large"
-										style="width: 450px; height: 336px;"> <c:out
-												value="${pin.getSubstance().getImage()}" escapeXml="false" /></a></li>
-								</c:if>
-							</c:if>
-
-							<div id="myPinmyModal${pin.getSubstance().getId()}"
-								class="modal hide fade" tabindex="-1" role="dialog"
-								aria-labelledby="myModalLabel" aria-hidden="true"
-								style="display: block;">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal"
-										aria-hidden="true">×</button>
-									<h3 id="myModalLabel"
-										style="text-align: center; font-size: 35px;">
-										<c:out value="${pin.getSubstance().getSubject()}" />
-									</h3>
-								</div>
-								<div class="modal-body">
-									<div style="text-align: center">
-										<a href="board?op=show&id=${pin.getSubstance().getId()}">
-											<c:out value="${pin.getSubstance().getImage()}"
-												escapeXml="false" />
-										</a>
-									</div>
-									<div style="float: right;">
-										<b style="font-size: 15px;"><c:out
-												value="${pin.getSubstance().getUser_id()}" /></b> <img
-											src="./upload/${pin.getUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-					</ul>
+				<div class="tab-pane fade" id="myPin">
+					<div class="row-fluid">
+						<ul class="thumbnails">
+						</ul>
+					</div>
 				</div>
-			</div>
-
-			<div class="mypage tab-pane fade in active" id="editProfile"
-				style="margin-top: 30px">
-				<form class="form-horizontal" action="user" method="POST"
-					enctype="multipart/form-data">
-					<fieldset>
-						<c:choose>
-							<c:when test="${id==null}">
-								<legend class="legend">Create your account!</legend>
-							</c:when>
-							<c:otherwise>
-								<legend class="legend">Edit Profile !</legend>
-							</c:otherwise>
-						</c:choose>
-
-						<c:if test="${method == 'PUT'}">
-							<input type="hidden" name="id" value="${user.id}" />
-							<input type="hidden" name="op_method" value="PUT" />
-						</c:if>
-
-						<c:if test="${id!=null }">
-							<div class="control-group">
-								<div class="controls signupInput">
-									<input type="email" placeholder="Email" disabled="disabled"
-										name="email" value="${user.email}">
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="controls signupInput">
-									<input type="text" placeholder="UserID" disabled="disabled"
-										name="userid" value="${user.userid}">
-								</div>
-							</div>
-						</c:if>
-
-						<c:if test="${method == 'POST'}">
-							<div class="control-group">
-								<div class="controls signupInput">
-									<input type="email" placeholder="Email" name="email"
-										value="${user.email}">
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="controls signupInput">
-									<input type="text" placeholder="UserID" name="userid"
-										value="${user.userid}">
-								</div>
-							</div>
-						</c:if>
-
-						<%-- 신규 가입일 때만 비밀번호 입력창을 나타냄 --%>
-						<div class="control-group">
-							<div class="controls signupInput">
-								<input type="password" placeholder="Password" name="pwd">
-							</div>
-						</div>
-
-						<div class="control-group">
-							<div class="controls signupInput">
-								<input type="password" placeholder="Password Confirmation"
-									name="pwd_confirm">
-							</div>
-						</div>
-
-						<div class="control-group">
-							<div class="controls signupInput">
-								<input type="file" name="photoUrl" style="width: 220px">
-							</div>
-						</div>
-
-						<div class="form-action">
-							<c:choose>
-								<c:when test="${method=='POST'}">
-									<input type="submit" class="btn btn-primary"
-										value="Create Account">
-								</c:when>
-								<c:otherwise>
-									<input type="submit" class="btn btn-primary" value="Modify">
-								</c:otherwise>
-							</c:choose>
-						</div>
-					</fieldset>
-				</form>
+				<div class="tab-pane fade" id="editProfile" style="height:500px;text-align:center">
+				<div style="height:100px;">
+				</div>
+					<c:choose>
+						<c:when test="${id != null}">
+								<a href="user?op=update&id=${id}" class="btn">유저
+								회원정보를 수정하시겠습니까?</a>
+						</c:when>
+						<c:otherwise>
+							<c:if test="${fbid != null}">
+								<a href="fbuser?op=update&fbid=${fbid}" class="btn">페이스북
+									회원정보를 수정하시겠습니까?</a>
+							</c:if>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			</div>
 		</div>
 		<jsp:include page="./share/footer.jsp"></jsp:include>
 	</div>
 	<script type="text/javascript">
-		$(function() {
-			$('.mypage').hide();
-			$('#myWrite').show();
-		});
+	$(function() {
+		$('#myTab a:first').tab('show');
+	});
 
-		$('#myTab a').click(function(e) {
-			e.preventDefault();
-			$(this).tab('show');
-		});
-		function myPage(name) {
-			$('.mypage').hide();
-			$(name).show();
-		};
-	</script>
+	$('#myTab a').click(function(e) {
+		e.preventDefault();
+		console.log($(this).attr("href"));
+		$(this).tab('show');
+	});
+</script>
 </body>
 </html>

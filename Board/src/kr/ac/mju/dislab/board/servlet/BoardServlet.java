@@ -17,8 +17,6 @@ import javax.servlet.http.HttpSession;
 
 import kr.ac.mju.dislab.board.BoardAndUser;
 import kr.ac.mju.dislab.board.PageResult;
-import kr.ac.mju.dislab.board.Repin;
-import kr.ac.mju.dislab.board.RepinDAO;
 import kr.ac.mju.dislab.board.Substance;
 import kr.ac.mju.dislab.board.BoardDAO;
 import kr.ac.mju.dislab.user.User;
@@ -78,126 +76,19 @@ public class BoardServlet extends HttpServlet {
 
 				ArrayList<BoardAndUser> baus = BoardDAO.joinboardandusers();
 				request.setAttribute("baus", baus);
-				
-				ArrayList<BoardAndUser> pins = BoardDAO.pincountarray();
-				request.setAttribute("pins", pins);
-				
+
 				actionUrl = "main.jsp";
-			} else if(op.equals("index2")){
-				int page = getIntFromParameter(request.getParameter("page"), 1);
-
-				PageResult<Substance> sub = BoardDAO.getPage(page, 10);
-				request.setAttribute("sub", sub);
-				request.setAttribute("page", page);
-
-				ArrayList<BoardAndUser> baus = BoardDAO.joinboardandusers();
-				request.setAttribute("baus", baus);
-
-				actionUrl = "board_index.jsp";
-			}else if (op.equals("show")) {
+			} else if (op.equals("show")) {
 				Substance substance = BoardDAO.findById(id);
-				request.setAttribute("substance", substance);		
+				request.setAttribute("substance", substance);
 				
 				HttpSession session = request.getSession(false);
-				if(session.getAttribute("id") != null) { 		
-					session.getAttribute("id");
-					int idd = (int) session.getAttribute("id");
-					User user = UserDAO.findById(idd);
-					request.setAttribute("user", user);
-					
-					Repin repin = RepinDAO.findByUserId(idd);
-					request.setAttribute("repin", repin);
-					
-					actionUrl = "board_show.jsp";
-				}else if(session.getAttribute("fbid") != null) {
-					session.getAttribute("fbid");
-					String fbidd = (String)session.getAttribute("fbid");
-					FacebookUser fbuser = FacebookUserDAO.findByFbId(fbidd);
-					request.setAttribute("fbuser", fbuser);
-					
-					Repin repin = RepinDAO.findByUserFbId(fbidd);
-					request.setAttribute("repin", repin);
-					
-					
+				if(session.getAttribute("id") != null || session.getAttribute("fbid") != null) { 
 					actionUrl = "board_show.jsp";
 				}else {
 					actionUrl = "login.jsp";
 				}
-			} else if(op.equals("repin")) { 
-				Substance substance = BoardDAO.findById(id);
-				request.setAttribute("substance", substance);
-				int post_id = substance.getId();
-				
-				ArrayList<BoardAndUser> pins = BoardDAO.joinboardandpin();
-				request.setAttribute("pins", pins);
-				
-				HttpSession session = request.getSession(false);
-				if(session.getAttribute("id") != null) { 		
-					int user_id = (int) session.getAttribute("id");
-					
-					RepinDAO.userrepin(user_id, post_id);
-					BoardDAO.pincount(post_id);
-					
-					actionUrl = "board_show.jsp";
-				}else if(session.getAttribute("fbid") != null) {
-					String user_id = (String) session.getAttribute("fbid");
-					
-					RepinDAO.fbuserrepin(user_id, post_id);
-					BoardDAO.pincount(post_id);
-					
-					actionUrl = "board_show.jsp";
-				}else {
-					actionUrl = "board_show.jsp";
-				}
-			}else if(op.equals("repindelete")) {
-				Substance substance = BoardDAO.findById(id);
-				request.setAttribute("substance", substance);
-				int post_id = substance.getId();
-				
-				HttpSession session = request.getSession(false);
-				if(session.getAttribute("id") != null) { 		
-					int user_id = (int) session.getAttribute("id");
-					
-					RepinDAO.removeuserpin(user_id, post_id);
-					
-					actionUrl = "board_show.jsp";
-				}else if(session.getAttribute("fbid") != null) {
-					String user_id = (String) session.getAttribute("fbid");
-					
-					RepinDAO.removefbuserpin(user_id, post_id);
-					
-					actionUrl = "board_show.jsp";
-				}else {
-					actionUrl = "board_show.jsp";
-				}
-			
-				actionUrl="board_show.jsp";
-			}else if (op.equals("mypin")) {
-					Substance substance = BoardDAO.findById(id);
-					request.setAttribute("substance", substance);
-					
-					ArrayList<BoardAndUser> pins = BoardDAO.joinboardandpin();
-					request.setAttribute("pins", pins);
-					
-					HttpSession session = request.getSession(false);
-					
-					if(session.getAttribute("id") != null) { 		
-						int user_id = (int) session.getAttribute("id");
-						
-						Repin repin = RepinDAO.findByUserId(user_id);
-						request.setAttribute("repin", repin);
-						
-						actionUrl = "MyPin.jsp";
-					}else if(session.getAttribute("fbid") != null) {
-						String user_id = (String) session.getAttribute("fbid");
-						
-						Repin repin = RepinDAO.findByUserFbId(user_id);
-						request.setAttribute("repin", repin);
-						actionUrl = "MyPin.jsp";
-					}else {
-						actionUrl = "error.jsp";
-					}
-			}else if (op.equals("update")) {
+			} else if (op.equals("update")) {
 				Substance substance = BoardDAO.findById(id);
 				request.setAttribute("substance", substance);
 				request.setAttribute("method", "PUT");
@@ -322,8 +213,6 @@ public class BoardServlet extends HttpServlet {
 			substance.setImage(image);
 		}else{
 			substance.setImage("<img src=\"/Board/upload/firstback.jpg \" alt = \"사진\">");
-			substance.addImage("<img src=\"/Board/upload/firstback.jpg \" alt = \"사진\">");
-			
 		}
 
 

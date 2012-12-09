@@ -23,14 +23,15 @@
 						</c:otherwise>
 					</c:choose>
 
+
 					<c:if test="${method == 'PUT'}">
 						<input type="hidden" name="id" value="${user.id}" />
 						<input type="hidden" name="op_method" value="PUT" />
 					</c:if>
 
 					<c:if test="${id!=null }">
-						<div class="control-group">
-							<div class="controls signupInput">
+						<div class="control-group" >
+							<div class="controls signupInput" style="padding-top:20px">
 								<input type="email" placeholder="Email" disabled="disabled"
 									name="email" value="${user.email}">
 							</div>
@@ -58,6 +59,7 @@
 						</div>
 					</c:if>
 
+
 					<%-- 신규 가입일 때만 비밀번호 입력창을 나타냄 --%>
 					<div class="control-group">
 						<div class="controls signupInput">
@@ -81,7 +83,7 @@
 					<div class="form-action">
 						<c:choose>
 							<c:when test="${method=='POST'}">
-								<input type="submit" class="btn btn-primary"
+								<input type="submit" class="btn btn-primary "
 									value="Create Account">
 							</c:when>
 							<c:otherwise>

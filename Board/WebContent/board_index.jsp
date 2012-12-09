@@ -8,7 +8,7 @@
 <jsp:include page="./share/link.jsp"></jsp:include>
 </head>
 <body>
-	<jsp:include page="./share/header.jsp" />
+<jsp:include page="./share/header.jsp" />
 	<div class="container">
 		<div class="row">
 			<div class="span12 page-info">
@@ -25,10 +25,10 @@
 				<tr>
 					<th style="width: 10%; text-align: center;">Number</th>
 					<th style="width: 10%; text-align: center;">Category</th>
-					<th style="width: 40%; text-align: center;">Subject</th>
-					<th style="width: 30%; text-align: center;">UserID</th>
+					<th style="width: 70%; text-align: center;">Subject</th>
+					<th style="width: 70%; text-align: center;">UserID</th>
 					<!-- th style="width:20%; text-align:center;">Name</th-->
-					<th style="width: 10%; text-align: center;"></th>
+					<!-- <th></th> -->
 				</tr>
 			</thead>
 			<tbody>
@@ -46,10 +46,6 @@
 						class="btn btn-mini">modify</a> <a href="#"
 						class="btn btn-mini btn-danger" data-action="delete"
 						data-id="${user.id}">delete</a></td> -->
-						<td><c:if test="${id==1}">
-								<a href="#" class="btn btn-mini btn-danger" data-action="delete"
-									data-id="${substance.id}">delete</a>
-							</c:if></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -64,26 +60,16 @@
 		</jsp:include>
 
 		<div class="form-action">
-			<c:choose>
-				<c:when test="${id!=null || fbid!=null }">
-					<a class="btn btn-primary" href="board?op=signup">Write</a>
-				</c:when>
-				<c:otherwise>
-					<a class="btn btn-primary" href="./login.jsp">Write</a>
-				</c:otherwise>
-			</c:choose>
+				<c:choose>
+					<c:when test="${id!=null || fbid!=null }">
+						<a class="btn btn-primary" href="board?op=signup">Write</a>
+					</c:when>
+					<c:otherwise>
+						<a class="btn btn-primary" href="./login.jsp">Write</a>
+					</c:otherwise>
+				</c:choose>
 		</div>
 	</div>
 	<jsp:include page="./share/footer.jsp" />
 </body>
-<script>
-	$(function() {
-		$("a[data-action='delete']").click(function() {
-			if (confirm("정말로 삭제하시겠습니까?")) {
-				location = 'board?op=delete&id=' + $(this).attr('data-id');
-			}
-			return false;
-		});
-	});
-</script>
 </html>

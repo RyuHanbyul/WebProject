@@ -10,23 +10,22 @@
   <link rel="stylesheet" type="text/css" href="./css/reset.css">
   <link rel="stylesheet" type="text/css" href="./css/signup.css">
   <link rel="stylesheet" type="text/css" href="./css/mypage.css">
-    <link rel="stylesheet" type="text/css" href="./css/repin.css">
   <script src="./js/jquery-1.8.3.js" type="text/javascript"></script>
   <script src="./bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-   <script src="./js/bootstrap-dropdown.js" type="text/javascript"></script>
+  <script src="./js/bootstrap-dropdown.js" type="text/javascript"></script>
   <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
   <script type="text/javascript">
-    $(function(){
+    $(document).ready(function(){
       $(document).scroll(function(){
         scrollTop=$(document).scrollTop();
-      if(scrollTop>0)
-      {
-        $("#top").addClass("fixed");
-    }
-      else
-      {
-        $("#top").removeClass("fixed");
-    }
+      	if(scrollTop>0)
+      	{
+        	$("#top").addClass("fixed");
+    		}
+      	else
+      	{
+        	$("#top").removeClass("fixed");
+    		}
       });
     });
 </script>

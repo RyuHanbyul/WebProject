@@ -4,10 +4,10 @@
     <div id="top">
     	<div id="top-exam1">
     	</div>
-    	<div id="top-left"style="background-color:#FCE6E6">
+    	<div id="top-left">
     		<a href="board" ><img src="./img/logo1.gif" alt = "mainlogo" style="float:right;width:90%;height:85%;margin-top:10px;margin-left:50px"></a>
     	</div>
-      <div id="top-right"style="background-color:#FCE6E6;text-align:center">
+      <div id="top-right">
       	<jsp:include page="./top-btn.jsp"></jsp:include>
       	<img src="./img/logo2.gif" alt = "mainlogo" style="margin-top:35px;float:left;height:50%;">
 			</div>

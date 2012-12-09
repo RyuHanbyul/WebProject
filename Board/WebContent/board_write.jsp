@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -55,10 +54,10 @@
 						<a href="board" class="btn">목록으로</a>
 						<c:choose>
 							<c:when test="${method=='POST'}">
-								<input type="button" class="btn btn-primary" onclick=send() value="Write">
+								<input type="button" class="btn btn-primary" onclick=send() value="글쓰기">
 							</c:when>
 							<c:otherwise>
-								<input type="button" class="btn btn-primary" onclick=send() value="Modify">
+								<input type="button" class="btn btn-primary" onclick=send() value="수정">
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -108,9 +107,9 @@
 	$(function() {
 		var spot = $("#spot").val();
 		if(!spot){
-		    daumMap.init(37.566419230900905,126.97787415510291);  
-		    daumLocalSearch.init();  
-		    daumLocalSearch.search();
+			daumMap.init(37.566419230900905,126.97787415510291);  
+			daumLocalSearch.init();  
+			daumLocalSearch.search();
 		}
 			var spotView = spot.split(";");
 			for ( var i = 0; i < spotView.length - 1; i++) {

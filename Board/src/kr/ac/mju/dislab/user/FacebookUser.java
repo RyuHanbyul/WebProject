@@ -17,11 +17,11 @@ public class FacebookUser implements java.io.Serializable {
 	public FacebookUser() {
 	}
 
-	public FacebookUser(int fid, String fb_id, String f_userid, String pwd, String photo_url) {
+	public FacebookUser(int id, String fb_id, String userid, String pwd, String photo_url) {
 		super();
-		this.id = fid;
+		this.id = id;
 		this.fbid = fb_id;
-		this.userid = f_userid;
+		this.userid = userid;
 		this.pwd = pwd;
 		this.photoUrl = photo_url;
 	}
@@ -35,8 +35,8 @@ public class FacebookUser implements java.io.Serializable {
 		return id;
 	}
 
-	public void setId(int fid) {
-		this.id = fid;
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public String getfbId() {
@@ -51,8 +51,8 @@ public class FacebookUser implements java.io.Serializable {
 		return userid;
 	}
 
-	public void setUserid(String f_userid) {
-		this.userid = f_userid;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
 	public String getPwd() {

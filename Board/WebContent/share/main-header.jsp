@@ -15,27 +15,16 @@
 </div>
 <div style="width: 45%;float:right">
 	<ul class="nav nav-pills">
-		<li class="dropdown" id="menu1"><a
-			class="dropdown-toggle" data-toggle="dropdown" href="#menu1"> 
-			지역 <b	class="caret"></b>
+		<li class="dropdown" id="menu1"><a class="dropdown-toggle" data-toggle="dropdown" href="#menu1"> 지역 <b	class="caret"></b>
 		</a>
 			<ul class="dropdown-menu">
-				<li data-filter-camera-type="total"><a onclick="category(total)" data-toggle="tab"
-					href="#1">전국</a></li>
-				<li data-filter-camera-type="seoul"><a onclick="category(seoul)" data-toggle="tab"
-					href="#2">서울</a></li>
-				<li data-filter-camera-type="kyongki"><a onclick="category(kyongki)" data-toggle="tab"
-					href="#3">경기도</a></li>
-				<li data-filter-camera-type="kangwon"><a onclick="category(kangwon)" data-toggle="tab"
-					href="#4">강원도</a></li>
-				<li data-filter-camera-type="choongchung"><a onclick="category(choongchung)" data-toggle="tab"
-					href="#5">충청도</a></li>
-				<li data-filter-camera-type="junla"><a onclick="category(junla)"data-toggle="tab"
-					href="#6">전라도</a></li>
-				<li data-filter-camera-type="kyongsang"><a onclick="category(kyongsang)"data-toggle="tab"
-					href="#7">경상도</a></li>
-				<li data-filter-camera-type="jeju"><a onclick="category(jeju)"data-toggle="tab"
-					href="#8">제주도</a></li>
+				<li data-filter-camera-type="seoul"><a data-toggle="tab" href="#1" onclick="category(seoul)">서울</a></li>
+				<li data-filter-camera-type="kyongki"><a data-toggle="tab" href="#2" onclick="category(kyongki)">경기도</a></li>
+				<li data-filter-camera-type="kangwon"><a data-toggle="tab" href="#3" onclick="category(kangwon)">강원도</a></li>
+				<li data-filter-camera-type="choongchung"><a data-toggle="tab" href="#4" onclick="category(choongchung)">충청도</a></li>
+				<li data-filter-camera-type="junla"><a data-toggle="tab" href="#5" onclick="category(junla)">전라도</a></li>
+				<li data-filter-camera-type="kyongsang"><a data-toggle="tab" href="#6" onclick="category(kyongsang)">경상도</a></li>
+				<li data-filter-camera-type="jeju"><a data-toggle="tab" href="#7" onclick="category(jeju)">제주도</a></li>
 			</ul></li>
 	</ul>
 </div>
@@ -47,14 +36,14 @@
 		</a>
 			<ul class="dropdown-menu">
 				<li data-filter-camera-type="seoul"><a data-toggle="tab"
-					href="#" onclick="category(total)">신규글</a></li>
+					href="#">신규글</a></li>
 				<li data-filter-camera-type="kyongki"><a data-toggle="tab"
-					href="#" onclick="category(pin)">인기글</a></li>
+					href="#">인기글</a></li>
 			</ul></li>
 	</ul>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){
-	$(".dropdown-toggle").dropdown();
-});
+	$(document).ready(function(){
+		$(".dropdown-toggle").dropdown();
+	});
 </script>

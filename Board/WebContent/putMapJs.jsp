@@ -1,6 +1,6 @@
-<script src="http://apis.daum.net/maps/maps3.js?apikey=63011caffd3d90523d444d7f743d03e72310aedb" type="text/javascript" charset="utf-8"></script>  
+<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=489fa31492fda50bdedfa5c44079de63b605160a" charset="utf-8"></script>  
 <script src="./js/jquery-1.8.3.js" type="text/javascript"></script>
-<script language="Javascript" type="text/javascript">
+<script type="text/javascript">
     var markId;
     var markIds = new Array();
     var shoppingIcon = new daum.maps.MarkerImage( //shoppig
@@ -43,7 +43,7 @@
     var daumLocalSearch = {  
         /** 초기화. **/  
         init : function(){  
-            this.apikey = "8ad40b2049a80706f467deb7d710973cc336bb6c"; 
+            this.apikey = "dc3a8e70151039e0b1e19ebdfe938818da1ce75f"; 
             this.q = document.getElementById('daumLocalSearch');  
             this.v = document.getElementById('daumLocalView');  
             this.s = document.getElementById('daumLocalScript');  
