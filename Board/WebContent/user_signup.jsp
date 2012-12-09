@@ -83,13 +83,6 @@
 							<c:when test="${method=='POST'}">
 								<input type="submit" class="btn btn-primary"
 									value="Create Account">
-
-								<!-- Facebook 접속 버튼 -->
-								<a class="btn btn-primary" id="btnLogin" href="FBAuthServlet.do"
-									data-size="xlarge"> <span class="fb_button_text"
-									style="color: white"> F.B Create Account</span>
-								</a>
-
 							</c:when>
 							<c:otherwise>
 								<input type="submit" class="btn btn-primary" value="Modify">

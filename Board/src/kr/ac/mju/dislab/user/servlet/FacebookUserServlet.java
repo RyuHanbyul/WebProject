@@ -208,8 +208,8 @@ public class FacebookUserServlet extends HttpServlet {
 
 		try {
 			URL url = new URL(photoUrl);
-			String encodedurl = URLEncoder.encode(url.toString(), "UTF-8");
-			fbuser.setPhotoUrl(encodedurl);
+	//		String encodedurl = URLEncoder.encode(url.toString(), "UTF-8");
+			fbuser.setPhotoUrl(photoUrl);
 		} catch (Exception e) {
 			errorMsgs.add(e.getMessage());
 		}
@@ -238,6 +238,7 @@ public class FacebookUserServlet extends HttpServlet {
 			errorMsgs.add(e.getMessage());
 			actionUrl = "error.jsp";
 		}
+	//	fbuser.setPhotoUrl(photoUrl);
 
 		request.setAttribute("fbid", fbid);
 		request.setAttribute("errorMsgs", errorMsgs);

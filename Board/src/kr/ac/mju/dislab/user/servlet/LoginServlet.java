@@ -106,7 +106,6 @@ public class LoginServlet extends HttpServlet {
 							&& userinfo.getEmail().equals(email)) {
 						session.setAttribute("id", userinfo.getId());
 						request.setAttribute("msg", userinfo.getUserid() + "님 방문을 환영합니다!");
-						System.out.println(userinfo.getUserid());
 						actionUrl = "login.jsp";
 					} else {
 						request.setAttribute("msg", "pwd 오류!");

@@ -30,12 +30,13 @@
 							<c:if test="${bau.getUser().getId()==id}">
 								<li class="span4"
 									style="width: 29.3%; margin: 2%; text-align: center"><a
-									href="#myModal${bau.getSubstance().getId()}" class="thumbnail"
-									data-toggle="modal" class="btn btn-primary btn-large"
+									href="#myWritemyModal${bau.getSubstance().getId()}"
+									class="thumbnail" data-toggle="modal"
+									class="btn btn-primary btn-large"
 									style="width: 450px; height: 336px;"> <c:out
 											value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li>
 							</c:if>
-							<div id="myModal${bau.getSubstance().getId()}"
+							<div id="myWritemyModal${bau.getSubstance().getId()}"
 								class="modal hide fade" tabindex="-1" role="dialog"
 								aria-labelledby="myModalLabel" aria-hidden="true"
 								style="display: block;">
@@ -46,9 +47,14 @@
 										style="text-align: center; font-size: 35px;">
 										<c:out value="${bau.getSubstance().getSubject()}" />
 									</h3>
-									<a href="board?op=show&id=${bau.getSubstance().getId()}"> <c:out
-											value="${bau.getSubstance().getImage()}" escapeXml="false" />
-									</a>
+								</div>
+								<div class="modal-body">
+									<div style="text-align: center">
+										<a href="board?op=show&id=${bau.getSubstance().getId()}">
+											<c:out value="${bau.getSubstance().getImage()}"
+												escapeXml="false" />
+										</a>
+									</div>
 									<div style="float: right;">
 										<b style="font-size: 15px;"><c:out
 												value="${bau.getSubstance().getUser_id()}" /></b>
@@ -63,10 +69,52 @@
 					</ul>
 				</div>
 			</div>
-			<div class="mypage tab-pane fade in active" id="myPin"
-				style="margin-top: 30px">
+			<div class="mypage tab-pane fade in active" id="myPin">
 				<div class="row-fluid">
-					<a href="board?op=mypin&id=${id}" class="btn btn-mini">ShowMyPin</a>
+					<ul class="thumbnails">
+						<c:forEach var="pin" items="${pins}">
+							<c:if test="${pin.getRepin().getUser_id() == id}">
+								<c:if
+									test="${pin.getRepin().getPost_id() == pin.getSubstance().getId() }">
+									<li class="span4"
+										style="width: 29.3%; margin: 2%; text-align: center"><a
+										href="#myPinmyModal${pin.getSubstance().getId()}"
+										class="thumbnail" data-toggle="modal"
+										class="btn btn-primary btn-large"
+										style="width: 450px; height: 336px;"> <c:out
+												value="${pin.getSubstance().getImage()}" escapeXml="false" /></a></li>
+								</c:if>
+							</c:if>
+
+							<div id="myPinmyModal${pin.getSubstance().getId()}"
+								class="modal hide fade" tabindex="-1" role="dialog"
+								aria-labelledby="myModalLabel" aria-hidden="true"
+								style="display: block;">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">×</button>
+									<h3 id="myModalLabel"
+										style="text-align: center; font-size: 35px;">
+										<c:out value="${pin.getSubstance().getSubject()}" />
+									</h3>
+								</div>
+								<div class="modal-body">
+									<div style="text-align: center">
+										<a href="board?op=show&id=${pin.getSubstance().getId()}">
+											<c:out value="${pin.getSubstance().getImage()}"
+												escapeXml="false" />
+										</a>
+									</div>
+									<div style="float: right;">
+										<b style="font-size: 15px;"><c:out
+												value="${pin.getSubstance().getUser_id()}" /></b> <img
+											src="./upload/${pin.getUser().getPhotoUrl()}"
+											style="width: 40px; height: 40px;" escapeXml="false">
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</ul>
 				</div>
 			</div>
 
@@ -144,14 +192,6 @@
 								<c:when test="${method=='POST'}">
 									<input type="submit" class="btn btn-primary"
 										value="Create Account">
-
-									<!-- Facebook 접속 버튼 -->
-									<a class="btn btn-primary" id="btnLogin"
-										href="FBAuthServlet.do" data-size="xlarge"> <span
-										class="fb_button_text" style="color: white"> F.B Create
-											Account</span>
-									</a>
-
 								</c:when>
 								<c:otherwise>
 									<input type="submit" class="btn btn-primary" value="Modify">
@@ -175,8 +215,8 @@
 			$(this).tab('show');
 		});
 		function myPage(name) {
-				$('.mypage').hide();
-				$(name).show();
+			$('.mypage').hide();
+			$(name).show();
 		};
 	</script>
 </body>

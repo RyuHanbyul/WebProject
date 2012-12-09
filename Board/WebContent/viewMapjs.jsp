@@ -1,4 +1,4 @@
-<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=489fa31492fda50bdedfa5c44079de63b605160a" charset="utf-8"></script>  
+<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=63011caffd3d90523d444d7f743d03e72310aedb" charset="utf-8"></script>  
 <script src="./js/jquery-1.8.3.js"></script>
 <script language="Javascript" type="text/javascript">
     var markId;
@@ -45,7 +45,7 @@
         init : function(lat,lng){  
             this.map =  new daum.maps.Map(document.getElementById('daumMapView'), {  
                 center: new daum.maps.LatLng(lat,lng),  
-                level:5
+                level:7
             });  
             this.zoomControl = new daum.maps.ZoomControl();      
             this.map.addControl(this.zoomControl, daum.maps.ControlPosition.RIGHT);      

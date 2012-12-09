@@ -203,7 +203,7 @@ public class FacebookUserDAO {
 			conn = ds.getConnection();
 			// 질의 준비
 		
-				stmt = conn.prepareStatement("SELECT userid FROM fbusers WHERE fb_id = ?");
+				stmt = conn.prepareStatement("SELECT f_userid FROM fbusers WHERE fb_id = ?");
 				stmt.setString(1, fbid);
 				
 				// 수행

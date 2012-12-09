@@ -96,27 +96,28 @@ public class BoardServlet extends HttpServlet {
 				actionUrl = "board_index.jsp";
 			}else if (op.equals("show")) {
 				Substance substance = BoardDAO.findById(id);
-				request.setAttribute("substance", substance);
-				
-				ArrayList<BoardAndUser> pins = BoardDAO.joinboardandpin();
-				request.setAttribute("pins", pins);
+				request.setAttribute("substance", substance);		
 				
 				HttpSession session = request.getSession(false);
 				if(session.getAttribute("id") != null) { 		
+					session.getAttribute("id");
 					int idd = (int) session.getAttribute("id");
-					System.out.println("session에 저장된 id :" + idd);
 					User user = UserDAO.findById(idd);
 					request.setAttribute("user", user);
 					
+					Repin repin = RepinDAO.findByUserId(idd);
+					request.setAttribute("repin", repin);
+					
 					actionUrl = "board_show.jsp";
 				}else if(session.getAttribute("fbid") != null) {
+					session.getAttribute("fbid");
 					String fbidd = (String)session.getAttribute("fbid");
-					System.out.println("session에 저장된 fbid :" + fbidd);
 					FacebookUser fbuser = FacebookUserDAO.findByFbId(fbidd);
-					System.out.println("fbuser의 fbuserid :" + fbuser.getUserid());
 					request.setAttribute("fbuser", fbuser);
 					
-					System.out.println("fbuser의 getuserid :" + fbuser.getUserid());
+					Repin repin = RepinDAO.findByUserFbId(fbidd);
+					request.setAttribute("repin", repin);
+					
 					
 					actionUrl = "board_show.jsp";
 				}else {
@@ -126,7 +127,6 @@ public class BoardServlet extends HttpServlet {
 				Substance substance = BoardDAO.findById(id);
 				request.setAttribute("substance", substance);
 				int post_id = substance.getId();
-				System.out.println("post_id :"+post_id);
 				
 				ArrayList<BoardAndUser> pins = BoardDAO.joinboardandpin();
 				request.setAttribute("pins", pins);
@@ -134,7 +134,6 @@ public class BoardServlet extends HttpServlet {
 				HttpSession session = request.getSession(false);
 				if(session.getAttribute("id") != null) { 		
 					int user_id = (int) session.getAttribute("id");
-					System.out.println("user_id: " + user_id);
 					
 					RepinDAO.userrepin(user_id, post_id);
 					BoardDAO.pincount(post_id);
@@ -142,7 +141,6 @@ public class BoardServlet extends HttpServlet {
 					actionUrl = "board_show.jsp";
 				}else if(session.getAttribute("fbid") != null) {
 					String user_id = (String) session.getAttribute("fbid");
-					System.out.println("user_id: " + user_id);
 					
 					RepinDAO.fbuserrepin(user_id, post_id);
 					BoardDAO.pincount(post_id);
@@ -159,14 +157,12 @@ public class BoardServlet extends HttpServlet {
 				HttpSession session = request.getSession(false);
 				if(session.getAttribute("id") != null) { 		
 					int user_id = (int) session.getAttribute("id");
-					System.out.println("user_id: " + user_id);
 					
 					RepinDAO.removeuserpin(user_id, post_id);
 					
 					actionUrl = "board_show.jsp";
 				}else if(session.getAttribute("fbid") != null) {
 					String user_id = (String) session.getAttribute("fbid");
-					System.out.println("user_id: " + user_id);
 					
 					RepinDAO.removefbuserpin(user_id, post_id);
 					
@@ -187,19 +183,17 @@ public class BoardServlet extends HttpServlet {
 					
 					if(session.getAttribute("id") != null) { 		
 						int user_id = (int) session.getAttribute("id");
-						System.out.println("user_id: " + user_id);
 						
 						Repin repin = RepinDAO.findByUserId(user_id);
 						request.setAttribute("repin", repin);
 						
-						actionUrl = "Mypin.jsp";
+						actionUrl = "MyPin.jsp";
 					}else if(session.getAttribute("fbid") != null) {
 						String user_id = (String) session.getAttribute("fbid");
-						System.out.println("user_id: " + user_id);
 						
 						Repin repin = RepinDAO.findByUserFbId(user_id);
 						request.setAttribute("repin", repin);
-						actionUrl = "Mypin.jsp";
+						actionUrl = "MyPin.jsp";
 					}else {
 						actionUrl = "error.jsp";
 					}
@@ -279,10 +273,8 @@ public class BoardServlet extends HttpServlet {
 				if(session.getAttribute("id") != null ) { 
 					try {
 						int id = (int) session.getAttribute("id");
-						System.out.println("session에 저장된 User의 id :"+id);
 						User user = UserDAO.findByUserIdFromId(id);
 						String userid = user.getUserid();
-						System.out.println("User의 Userid :" + userid);
 						substance.setUser_id(userid);
 
 					} catch (NamingException e) {
@@ -295,10 +287,8 @@ public class BoardServlet extends HttpServlet {
 				}else if(session.getAttribute("fbid") != null) {
 					try {
 						String fbid = (String)session.getAttribute("fbid");
-						System.out.println("session에 저장된 FBUser의 id :"+fbid);
 						FacebookUser fbuser = FacebookUserDAO.findByUserIdFromId(fbid);
 						String userid = fbuser.getUserid();
-						System.out.println(userid);
 						substance.setUser_id(userid);
 					} catch (NamingException e) {
 						// TODO Auto-generated catch block

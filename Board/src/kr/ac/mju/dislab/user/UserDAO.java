@@ -53,7 +53,7 @@ public class UserDAO {
 			
 	 		// users 테이블 SELECT
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM users ORDER BY id LIMIT " + startPos + ", " + numItemsInPage);
+			rs = stmt.executeQuery("SELECT * FROM users ORDER BY uid LIMIT " + startPos + ", " + numItemsInPage);
 			int i=0;
 			while(rs.next()) {
 				i++;

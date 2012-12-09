@@ -12,20 +12,14 @@
 
 </head>
 <body>
-
-	<!-- 페이스북 Like -->
-	<div id="fb-root"></div>
-	<script>
-		(function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id))
-				return;
-			js = d.createElement(s);
-			js.id = id;
-			js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1&appId=560735563942173";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-	</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1&appId=560735563942173";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 	<jsp:scriptlet>pageContext.setAttribute("LF", "\r\n");</jsp:scriptlet>
 	<div class="container">
@@ -38,31 +32,14 @@
 				<!-- Repin Button -->
 				<!-- 페이스북 Like Button & Button_Count -->
 				<div style="float: right; padding: 10px;">
-					<div class="fb-like" data-href="http://117.17.158.21:8080/Board"
-						data-send="false" data-layout="box_count" data-width="550"
-						data-show-faces="true" data-font="tahoma"></div>
+					<div class="fb-like" data-href="http://117.17.158.21:8080/Board?op=${substance.id}" data-send="false" data-layout="box_count" data-width="450" data-show-faces="true" data-font="tahoma"></div>
 				</div>
 				<div style="float: right; padding: 10px 0;">
+				
 				<a href="board?op=repin&id=${substance.id}"
-									class="btn btn-smail">Repin</a>
-		<!--
-					<c:forEach var="pin" items="${pins}">
-						<c:if test="${pin.getRepin().getUser_id() == id || pin.getRepin().getUser_id() == fbid}">
-							<c:if test="${pin.getRepin().getPost_id() == pin.getSubstance().getId() }">
-								<a href="board?op=delete&id=${substance.id}"
-									class="btn btn-smail">Delete Repin</a>
-							</c:if>
-						</c:if>
-						
-						<c:if test="${pin.getRepin().getUser_id() != id && pin.getRepin().getUser_id() != fbid}">
-							<c:if test="${pin.getRepin().getPost_id() != pin.getSubstance().getId() }">
-						
-								<a href="board?op=repin&id=${substance.id}"
-									class="btn btn-smail">Repin</a>
-							</c:if>
-						</c:if>
-					</c:forEach>
-						-->
+									class="btn btn-smail" id="repin">Repin</a>
+				<a href="board?op=repindelete&id=${substance.id}"
+									class="btn btn-smail" id="repin-delete">Delete Repin</a>
 				</div>
 			</div>
 
@@ -112,7 +89,7 @@
 			<div class="form-actions" style="float: right">
 				<a href="board" class="btn">목록으로</a>
 
-				<c:if test="${substance.user_id == user.getUserid()}">
+				<c:if test="${substance.user_id == user.getUserid() || id == 1}">
 					<a href="board?op=update&id=${substance.id}"
 						class="btn btn-primary">수정</a>
 					<a href="#" class="btn btn-danger" data-action="delete"
@@ -148,17 +125,6 @@
 				mark.spot(totalSpot[0], totalSpot[1], totalSpot[2]);
 			}
 		}
-		//repin 부분
-		$("#repin-btn").click(function() {
-			alert("repin이 클릭이 되었습니다.");
-			$(function() {
-				if (confirm("정말로 Pin?")) {
-					location = 'board?op=repin';
-				}
-				return false;
-			});
-			alert("pin안됨.");
-		});
 	});
 	$(function() {
 		$("a[data-action='delete']").click(function() {
@@ -173,4 +139,14 @@
 		trans();
 		document.getElementById('act').submit();
 	};
+	$(function() {
+		$('#repin').click(function() {
+			alert("Repin이 되었습니다! 마이페이지에서 확인하세요!");
+		});
+	});
+	$(function() {
+		$('#repin-delete').click(function() {
+			confirm("Repin을 정말 삭제하시겠습니까?");
+		});
+	});
 </script>

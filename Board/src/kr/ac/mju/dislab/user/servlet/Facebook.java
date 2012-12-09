@@ -17,7 +17,7 @@ public class Facebook{
 	// 자신의 facebook app Secret;
 	public static final String APPSECRET = "cae9137029d9c644262d8ab5cc10427a";
 	// facebook에 등록시킬 사이트주소
-	public static final String SITEURL="http://localhost:8080/Board";
+	public static final String SITEURL="http://117.17.158.21:8080/Board";
 	// facebook에 요청할  권한 리스트
 	// 아래 사이트에서 필요한 권한 확인 가능
 	// https://developers.facebook.com/docs/reference/login/#permissions

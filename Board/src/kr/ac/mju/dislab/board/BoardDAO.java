@@ -231,12 +231,13 @@ public class BoardDAO {
 
 		try {
 			conn = ds.getConnection();
-
-			// 질의 준비
-			stmt = conn.prepareStatement("SELECT * FROM boards " +
+			String query="SELECT * FROM boards " +
 					"left join users on boards.s_userid = users.u_userid " +
-					"left join fbusers on boards.s_userid = fbusers.f_userid " +
-					"ORDER BY boards.created_at DESC;");
+					"left join fbusers on boards.s_userid = fbusers.f_userid " ;
+	
+				query+="ORDER BY boards.created_at DESC;";
+			// 질의 준비
+			stmt = conn.prepareStatement(query);
 
 			// 수행
 			rs = stmt.executeQuery();

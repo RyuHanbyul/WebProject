@@ -46,7 +46,7 @@
 									<div style="float: right;">
 										<b style="font-size: 15px;"><c:out
 												value="${pin.getSubstance().getUser_id()}" /></b> <img
-											src="${pin.getUser().getPhotoUrl()}"
+											src="./upload/${pin.getUser().getPhotoUrl()}"
 											style="width: 40px; height: 40px;" escapeXml="false">
 									</div>
 								</div>

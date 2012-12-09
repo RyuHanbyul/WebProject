@@ -209,7 +209,6 @@ public class UserServlet extends HttpServlet {
 				if (userid == null || userid.trim().length() < 4) {
 					errorMsgs.add("ID는 4자 이상으로 입력해주세요.");
 				} else {
-					System.out.println("in");
 					user.setUserid(userid);
 				}
 			} else {

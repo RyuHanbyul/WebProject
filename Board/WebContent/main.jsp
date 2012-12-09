@@ -31,16 +31,17 @@
 				}(document, 'script', 'facebook-jssdk'));
 			</script>
 			<div id="category" class="row-fluid">
-				<ul id="total"class="thumbnails">
+				<ul id="total" class="thumbnails">
 					<c:forEach var="bau" items="${baus}">
 						<li class="span4"
 							style="width: 29.3%; margin: 2%; text-align: center"><a
-							href="#myModal${bau.getSubstance().getId()}" class="thumbnail"
-							data-toggle="modal" class="btn btn-primary btn-large"
+							href="#totalmyModal${bau.getSubstance().getId()}"
+							class="thumbnail" data-toggle="modal"
+							class="btn btn-primary btn-large"
 							style="width: 450px; height: 336px;"> <c:out
 									value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li>
 
-						<div id="myModal${bau.getSubstance().getId()}"
+						<div id="totalmyModal${bau.getSubstance().getId()}"
 							class="modal hide fade" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true"
 							style="display: block;">
@@ -61,31 +62,33 @@
 								<div style="float: right;">
 									<b style="font-size: 15px;"><c:out
 											value="${bau.getSubstance().getUser_id()}" /></b>
-									<c:if test="${id!=null }">
-										<img src="./upload/${bau.getUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-									<c:if test="${fbid!=null }">
-									<img src="./upload/${bau.getFbUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-								</div>
+									<c:choose>
+										<c:when test="${bau.getUser().getPhotoUrl()!=null }">
+											<img src="./upload/${bau.getUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:when>
+										<c:otherwise>
+											<img src="${bau.getFbUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
-					
+						</div>
+
 					</c:forEach>
 				</ul>
-				
-				<ul id="pin"class="thumbnails">
+
+				<ul id="pin" class="thumbnails">
 					<c:forEach var="pin" items="${pins}">
 						<li class="span4"
 							style="width: 29.3%; margin: 2%; text-align: center"><a
-							href="#myModal${pin.getSubstance().getId()}" class="thumbnail"
+							href="#pinmyModal${pin.getSubstance().getId()}" class="thumbnail"
 							data-toggle="modal" class="btn btn-primary btn-large"
 							style="width: 450px; height: 336px;"> <c:out
 									value="${pin.getSubstance().getImage()}" escapeXml="false" /></a></li>
 
-						<div id="myModal${pin.getSubstance().getId()}"
+						<div id="pinmyModal${pin.getSubstance().getId()}"
 							class="modal hide fade" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true"
 							style="display: block;">
@@ -106,71 +109,36 @@
 								<div style="float: right;">
 									<b style="font-size: 15px;"><c:out
 											value="${pin.getSubstance().getUser_id()}" /></b>
-									<c:if test="${id!=null }">
-										<img src="./upload/${pin.getUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-									<c:if test="${fbid!=null }">
-									<img src="./upload/${pin.getFbUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-								</div>
+									<c:choose>
+										<c:when test="${pin.getUser().getPhotoUrl()!=null }">
+											<img src="./upload/${pin.getUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:when>
+										<c:otherwise>
+											<img src="${pin.getFbUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
+						</div>
 					</c:forEach>
 				</ul>
-				
-				<ul id="seoul"class="thumbnails">
+
+				<ul id="seoul" class="thumbnails">
 					<c:forEach var="bau" items="${baus}">
-					<c:if test="${bau.getSubstance().getCategory()==\"서울\"}">
-						<li class="span4" style="width: 29.3%; margin: 2%; text-align: center">
-						<a href="#myModal${bau.getSubstance().getId()}" class="thumbnail" data-toggle="modal" class="btn btn-primary btn-large" style="width: 450px; height: 336px;"> 
-						<c:out value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li></c:if>
+						<c:if test="${bau.getSubstance().getCategory()==\"서울\"}">
+							<li class="span4"
+								style="width: 29.3%; margin: 2%; text-align: center"><a
+								href="#seoulmyModal${bau.getSubstance().getId()}"
+								class="thumbnail" data-toggle="modal"
+								class="btn btn-primary btn-large"
+								style="width: 450px; height: 336px;"> <c:out
+										value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li>
+						</c:if>
 
 
-						<div id="myModal${bau.getSubstance().getId()}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"
-									aria-hidden="true">×</button>
-								<h3 id="myModalLabel"
-									style="text-align: center; font-size: 35px;">
-									<c:out value="${bau.getSubstance().getSubject()}" />
-								</h3>
-							</div>
-							<div class="modal-body">
-								<div style="text-align: center">
-									<a href="board?op=show&id=${bau.getSubstance().getId()}"> <c:out
-											value="${bau.getSubstance().getImage()}" escapeXml="false" />
-									</a>
-								</div>
-								<div style="float: right;">
-									<b style="font-size: 15px;"><c:out
-											value="${bau.getSubstance().getUser_id()}" /></b>
-									<c:if test="${id!=null }">
-										<img src="./upload/${bau.getUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-									<c:if test="${fbid!=null }">
-									<img src="./upload/${bau.getFbUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-								</div>
-								</div>
-							</div>
-					
-					</c:forEach>
-				</ul>
-				<ul id="kyongki"class="thumbnails">
-					<c:forEach var="bau" items="${baus}">
-					<c:if test="${bau.getSubstance().getCategory()==\"경기도\"}">
-						<li class="span4"
-							style="width: 29.3%; margin: 2%; text-align: center"><a
-							href="#myModal${bau.getSubstance().getId()}" class="thumbnail"
-							data-toggle="modal" class="btn btn-primary btn-large"
-							style="width: 450px; height: 336px;"> <c:out
-									value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li></c:if>
-
-						<div id="myModal${bau.getSubstance().getId()}"
+						<div id="seoulmyModal${bau.getSubstance().getId()}"
 							class="modal hide fade" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true"
 							style="display: block;">
@@ -191,31 +159,35 @@
 								<div style="float: right;">
 									<b style="font-size: 15px;"><c:out
 											value="${bau.getSubstance().getUser_id()}" /></b>
-									<c:if test="${id!=null }">
-										<img src="./upload/${bau.getUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-									<c:if test="${fbid!=null }">
-									<img src="./upload/${bau.getFbUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-								</div>
+									<c:choose>
+										<c:when test="${bau.getUser().getPhotoUrl()!=null }">
+											<img src="./upload/${bau.getUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:when>
+										<c:otherwise>
+											<img src="${bau.getFbUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
-					
+						</div>
+
 					</c:forEach>
 				</ul>
-				<ul id="kangwon"class="thumbnails">
+				<ul id="kyongki" class="thumbnails">
 					<c:forEach var="bau" items="${baus}">
-					<c:if test="${bau.getSubstance().getCategory()==\"강원도\"}">
-						<li class="span4"
-							style="width: 29.3%; margin: 2%; text-align: center"><a
-							href="#myModal${bau.getSubstance().getId()}" class="thumbnail"
-							data-toggle="modal" class="btn btn-primary btn-large"
-							style="width: 450px; height: 336px;"> <c:out
-									value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li></c:if>
+						<c:if test="${bau.getSubstance().getCategory()==\"경기도\"}">
+							<li class="span4"
+								style="width: 29.3%; margin: 2%; text-align: center"><a
+								href="#kyongkimyModal${bau.getSubstance().getId()}"
+								class="thumbnail" data-toggle="modal"
+								class="btn btn-primary btn-large"
+								style="width: 450px; height: 336px;"> <c:out
+										value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li>
+						</c:if>
 
-						<div id="myModal${bau.getSubstance().getId()}"
+						<div id="kyongkimyModal${bau.getSubstance().getId()}"
 							class="modal hide fade" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true"
 							style="display: block;">
@@ -236,31 +208,35 @@
 								<div style="float: right;">
 									<b style="font-size: 15px;"><c:out
 											value="${bau.getSubstance().getUser_id()}" /></b>
-									<c:if test="${id!=null }">
-										<img src="./upload/${bau.getUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-									<c:if test="${fbid!=null }">
-									<img src="./upload/${bau.getFbUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-								</div>
+									<c:choose>
+										<c:when test="${bau.getUser().getPhotoUrl()!=null }">
+											<img src="./upload/${bau.getUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:when>
+										<c:otherwise>
+											<img src="${bau.getFbUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
-					
+						</div>
+
 					</c:forEach>
 				</ul>
-				<ul id="choongchung"class="thumbnails">
+				<ul id="kangwon" class="thumbnails">
 					<c:forEach var="bau" items="${baus}">
-					<c:if test="${bau.getSubstance().getCategory()==\"충청도\"}">
-						<li class="span4"
-							style="width: 29.3%; margin: 2%; text-align: center"><a
-							href="#myModal${bau.getSubstance().getId()}" class="thumbnail"
-							data-toggle="modal" class="btn btn-primary btn-large"
-							style="width: 450px; height: 336px;"> <c:out
-									value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li></c:if>
+						<c:if test="${bau.getSubstance().getCategory()==\"강원도\"}">
+							<li class="span4"
+								style="width: 29.3%; margin: 2%; text-align: center"><a
+								href="#kangwonmyModal${bau.getSubstance().getId()}"
+								class="thumbnail" data-toggle="modal"
+								class="btn btn-primary btn-large"
+								style="width: 450px; height: 336px;"> <c:out
+										value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li>
+						</c:if>
 
-						<div id="myModal${bau.getSubstance().getId()}"
+						<div id="kangwonmyModal${bau.getSubstance().getId()}"
 							class="modal hide fade" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true"
 							style="display: block;">
@@ -281,31 +257,35 @@
 								<div style="float: right;">
 									<b style="font-size: 15px;"><c:out
 											value="${bau.getSubstance().getUser_id()}" /></b>
-									<c:if test="${id!=null }">
-										<img src="./upload/${bau.getUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-									<c:if test="${fbid!=null }">
-									<img src="./upload/${bau.getFbUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-								</div>
+									<c:choose>
+										<c:when test="${bau.getUser().getPhotoUrl()!=null }">
+											<img src="./upload/${bau.getUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:when>
+										<c:otherwise>
+											<img src="${bau.getFbUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
-					
+						</div>
+
 					</c:forEach>
 				</ul>
-				<ul id="junla"class="thumbnails">
+				<ul id="choongchung" class="thumbnails">
 					<c:forEach var="bau" items="${baus}">
-					<c:if test="${bau.getSubstance().getCategory()==\"전라도\"}">
-						<li class="span4"
-							style="width: 29.3%; margin: 2%; text-align: center"><a
-							href="#myModal${bau.getSubstance().getId()}" class="thumbnail"
-							data-toggle="modal" class="btn btn-primary btn-large"
-							style="width: 450px; height: 336px;"> <c:out
-									value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li></c:if>
+						<c:if test="${bau.getSubstance().getCategory()==\"충청도\"}">
+							<li class="span4"
+								style="width: 29.3%; margin: 2%; text-align: center"><a
+								href="#choongchungmyModal${bau.getSubstance().getId()}"
+								class="thumbnail" data-toggle="modal"
+								class="btn btn-primary btn-large"
+								style="width: 450px; height: 336px;"> <c:out
+										value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li>
+						</c:if>
 
-						<div id="myModal${bau.getSubstance().getId()}"
+						<div id="choongchungmyModal${bau.getSubstance().getId()}"
 							class="modal hide fade" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true"
 							style="display: block;">
@@ -326,31 +306,35 @@
 								<div style="float: right;">
 									<b style="font-size: 15px;"><c:out
 											value="${bau.getSubstance().getUser_id()}" /></b>
-									<c:if test="${id!=null }">
-										<img src="./upload/${bau.getUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-									<c:if test="${fbid!=null }">
-									<img src="./upload/${bau.getFbUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-								</div>
+									<c:choose>
+										<c:when test="${bau.getUser().getPhotoUrl()!=null }">
+											<img src="./upload/${bau.getUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:when>
+										<c:otherwise>
+											<img src="${bau.getFbUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
-					
+						</div>
+
 					</c:forEach>
 				</ul>
-				<ul id="kyongsang"class="thumbnails">
+				<ul id="junla" class="thumbnails">
 					<c:forEach var="bau" items="${baus}">
-					<c:if test="${bau.getSubstance().getCategory()==\"경상도\"}">
-						<li class="span4"
-							style="width: 29.3%; margin: 2%; text-align: center"><a
-							href="#myModal${bau.getSubstance().getId()}" class="thumbnail"
-							data-toggle="modal" class="btn btn-primary btn-large"
-							style="width: 450px; height: 336px;"> <c:out
-									value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li></c:if>
+						<c:if test="${bau.getSubstance().getCategory()==\"전라도\"}">
+							<li class="span4"
+								style="width: 29.3%; margin: 2%; text-align: center"><a
+								href="#junlamyModal${bau.getSubstance().getId()}"
+								class="thumbnail" data-toggle="modal"
+								class="btn btn-primary btn-large"
+								style="width: 450px; height: 336px;"> <c:out
+										value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li>
+						</c:if>
 
-						<div id="myModal${bau.getSubstance().getId()}"
+						<div id="junlamyModal${bau.getSubstance().getId()}"
 							class="modal hide fade" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true"
 							style="display: block;">
@@ -371,31 +355,35 @@
 								<div style="float: right;">
 									<b style="font-size: 15px;"><c:out
 											value="${bau.getSubstance().getUser_id()}" /></b>
-									<c:if test="${id!=null }">
-										<img src="./upload/${bau.getUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-									<c:if test="${fbid!=null }">
-									<img src="./upload/${bau.getFbUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-								</div>
+									<c:choose>
+										<c:when test="${bau.getUser().getPhotoUrl()!=null }">
+											<img src="./upload/${bau.getUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:when>
+										<c:otherwise>
+											<img src="${bau.getFbUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
-					
+						</div>
+
 					</c:forEach>
 				</ul>
-				<ul id="jeju"class="thumbnails">
+				<ul id="kyongsang" class="thumbnails">
 					<c:forEach var="bau" items="${baus}">
-					<c:if test="${bau.getSubstance().getCategory()==\"제주\"}">
-						<li class="span4"
-							style="width: 29.3%; margin: 2%; text-align: center"><a
-							href="#myModal${bau.getSubstance().getId()}" class="thumbnail"
-							data-toggle="modal" class="btn btn-primary btn-large"
-							style="width: 450px; height: 336px;"> <c:out
-									value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li></c:if>
+						<c:if test="${bau.getSubstance().getCategory()==\"경상도\"}">
+							<li class="span4"
+								style="width: 29.3%; margin: 2%; text-align: center"><a
+								href="#kyongsangmyModal${bau.getSubstance().getId()}"
+								class="thumbnail" data-toggle="modal"
+								class="btn btn-primary btn-large"
+								style="width: 450px; height: 336px;"> <c:out
+										value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li>
+						</c:if>
 
-						<div id="myModal${bau.getSubstance().getId()}"
+						<div id="kyongsangmyModal${bau.getSubstance().getId()}"
 							class="modal hide fade" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true"
 							style="display: block;">
@@ -416,18 +404,69 @@
 								<div style="float: right;">
 									<b style="font-size: 15px;"><c:out
 											value="${bau.getSubstance().getUser_id()}" /></b>
-									<c:if test="${id!=null }">
-										<img src="./upload/${bau.getUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-									<c:if test="${fbid!=null }">
-									<img src="./upload/${bau.getFbUser().getPhotoUrl()}"
-											style="width: 40px; height: 40px;" escapeXml="false">
-									</c:if>
-								</div>
+									<c:choose>
+										<c:when test="${bau.getUser().getPhotoUrl()!=null }">
+											<img src="./upload/${bau.getUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:when>
+										<c:otherwise>
+											<img src="${bau.getFbUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
-					
+						</div>
+
+					</c:forEach>
+				</ul>
+				<ul id="jeju" class="thumbnails">
+					<c:forEach var="bau" items="${baus}">
+						<c:if test="${bau.getSubstance().getCategory()==\"제주\"}">
+							<li class="span4"
+								style="width: 29.3%; margin: 2%; text-align: center"><a
+								href="#jejumyModal${bau.getSubstance().getId()}"
+								class="thumbnail" data-toggle="modal"
+								class="btn btn-primary btn-large"
+								style="width: 450px; height: 336px;"> <c:out
+										value="${bau.getSubstance().getImage()}" escapeXml="false" /></a></li>
+						</c:if>
+
+						<div id="jejumyModal${bau.getSubstance().getId()}"
+							class="modal hide fade" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true"
+							style="display: block;">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true">×</button>
+								<h3 id="myModalLabel"
+									style="text-align: center; font-size: 35px;">
+									<c:out value="${bau.getSubstance().getSubject()}" />
+								</h3>
+							</div>
+							<div class="modal-body">
+								<div style="text-align: center">
+									<a href="board?op=show&id=${bau.getSubstance().getId()}"> <c:out
+											value="${bau.getSubstance().getImage()}" escapeXml="false" />
+									</a>
+								</div>
+								<div style="float: right;">
+									<b style="font-size: 15px;"><c:out
+											value="${bau.getSubstance().getUser_id()}" /></b>
+									<c:choose>
+										<c:when test="${bau.getUser().getPhotoUrl()!=null }">
+											<img src="./upload/${bau.getUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:when>
+										<c:otherwise>
+											<img src="${bau.getFbUser().getPhotoUrl()}"
+												style="width: 40px; height: 40px;">
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</div>
+						</div>
+
 					</c:forEach>
 				</ul>
 			</div>
@@ -435,13 +474,13 @@
 	</div>
 </body>
 <script type="text/javascript">
-$(function(){
-	$("#category>ul").hide();
-	$("#total").show();
-});
-function category(categoryName){
-	$("#category>ul").hide();
-	$(categoryName).show();
-}
+	$(function() {
+		$("#category>ul").hide();
+		$("#total").show();
+	});
+	function category(categoryName) {
+		$("#category>ul").hide();
+		$(categoryName).show();
+	}
 </script>
 </html>

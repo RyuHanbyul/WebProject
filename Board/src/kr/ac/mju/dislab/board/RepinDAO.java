@@ -20,9 +20,6 @@ public class RepinDAO {
 	}
 	public static boolean userrepin(int user_id, int post_id) throws SQLException, NamingException {
 		
-		System.out.println(user_id);
-		System.out.println(post_id);
-		
 		int result;
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -54,9 +51,7 @@ public class RepinDAO {
 	}
 	
 	public static boolean fbuserrepin(String user_id, int post_id) throws SQLException, NamingException {
-		
-		System.out.println(user_id);
-		System.out.println(post_id);
+	
 		
 		int result;
 		Connection conn = null;
@@ -166,7 +161,7 @@ public class RepinDAO {
 			conn = ds.getConnection();
 
 			// 질의 준비
-			stmt = conn.prepareStatement("DELETE FROM pin WHERE user_id=?, post_id =?");
+			stmt = conn.prepareStatement("DELETE FROM pin WHERE user_id=? AND post_id =?");
 			stmt.setInt(1,  user_id);
 			stmt.setInt(2, post_id);
 
